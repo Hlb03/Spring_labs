@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:text="${title}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+
+    <style>
+        .facts_location {
+            position: relative;
+            left: 650px;
+        }
+    </style>
+</head>
+<body>
+<header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+        <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="/student_1"  class="nav-link">Ihor L.</a></li>
+        <li class="nav-item"><a href="/student_2" class="nav-link active" aria-current="page">Hlib F.</a></li>
+        <li class="nav-item"><a href="/student_3" class="nav-link">Ivan M.</a></li>
+    </ul>
+</header>
+<hr>
+<br>
+<h2 style="text-align: center">Facts about Hlib:</h2>
+
+<div class="d-flex text-muted pt-3">
+    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded facts_location" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+
+    <p class="pb-3 mb-0 small lh-sm border-bottom facts_location">
+        <strong class="d-block text-gray-dark">@Fact 1</strong>
+        Birth date - 02/09/2002
+    </p>
+</div>
+<div class="d-flex text-muted pt-3">
+    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded facts_location" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"></rect><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
+
+    <p class="pb-3 mb-0 small lh-sm border-bottom facts_location">
+        <strong class="d-block text-gray-dark">@Fact 2</strong>
+        Doesn't like doing "front-end" moments
+    </p>
+</div>
+<div class="d-flex text-muted pt-3">
+    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded facts_location" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"></rect><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
+
+    <p class="pb-3 mb-0 small lh-sm border-bottom facts_location">
+        <strong class="d-block text-gray-dark">@Fact 3</strong>
+        Used to play football professionally
+    </p>
+</div>
+<div class="d-flex text-muted pt-3">
+    <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded facts_location" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#006400"></rect><text x="50%" y="50%" fill="#6f42c1" dy=".3em"/></svg>
+
+    <p class="pb-3 mb-0 small lh-sm border-bottom facts_location">
+        <strong class="d-block text-gray-dark">@Fact 4</strong>
+        Keen on reading and doing sports
+    </p>
+</div>
+
+</body>
+</html>
