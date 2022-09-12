@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface QueueRepository extends JpaRepository<Queue,Long> {
 
     @Modifying
-    @Query(value = "UPDATE queue SET is_active = :newQueueStatus WHERE queue_name = :userName", nativeQuery = true)
+    @Query(value = "UPDATE queue SET is_active = :newQueueStatus WHERE queue_name = :queueName", nativeQuery = true)
     void closeOrOpenQueue(@Param("newQueueStatus") boolean newQueueStatus, @Param("queueName") String queueName);
 
     boolean existsByUser_UsernameAndQueueName(String username,String queueName);
