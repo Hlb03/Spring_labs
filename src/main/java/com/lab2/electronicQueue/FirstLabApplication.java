@@ -1,4 +1,4 @@
-package com.lab1.FirstLab;
+package com.lab2.electronicQueue;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
