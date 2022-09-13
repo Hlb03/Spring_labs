@@ -1,6 +1,9 @@
 package com.lab2.electronicQueue.service.serviceImpl;
 
+import com.lab2.electronicQueue.DTO.PlaceInQueueDTO;
+import com.lab2.electronicQueue.DTO.QueueDTO;
 import com.lab2.electronicQueue.entity.PlaceInQueue;
+import com.lab2.electronicQueue.entity.Queue;
 import com.lab2.electronicQueue.repository.PlaceInQueueRepository;
 import com.lab2.electronicQueue.service.serviceInter.PlaceInQueueInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +46,12 @@ public class PlaceInQueueService implements PlaceInQueueInter {
         Pageable changePageable = PageRequest.of(pageNumber - 1, pageable.getPageSize()
                 ,direction.equals("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending());
         return placeInQueueRepository.findAllByUser_Username(username,changePageable);
+    }
+    public PlaceInQueueDTO PlaceInQueueToPlaceInQueueDTO(PlaceInQueue place_in_queue){
+        PlaceInQueueDTO dto = new PlaceInQueueDTO();
+        dto.setId(place_in_queue.getId());
+        dto.setUsername(place_in_queue.getUser().getUsername());
+        dto.setQueue(place_in_queue.getQueue());
+        return dto;
     }
 }

@@ -1,5 +1,6 @@
 package com.lab2.electronicQueue.DTO;
 
+import com.lab2.electronicQueue.entity.Queue;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlaceInQueueDTO {
     long id;
-
-    boolean is_active;
+    String username;
+    Queue queue;
 }
