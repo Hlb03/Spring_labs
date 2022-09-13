@@ -51,6 +51,8 @@ public class UserService implements UserInter {
         UserDTO dto = new UserDTO();
         dto.setUser_id(user.getId());
         dto.setUser_name(user.getUsername());
+        dto.setUser_role(user.getUserRole());
+        dto.setUser_email(user.getUser_email());
         dto.set_active(user.isActive());
         return dto;
 }

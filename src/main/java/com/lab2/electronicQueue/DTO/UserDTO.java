@@ -1,5 +1,6 @@
 package com.lab2.electronicQueue.DTO;
 
+import com.lab2.electronicQueue.entity.UserRole;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
     long user_id;
     String user_name;
-    String user_role;
+    UserRole user_role;
+    String user_email;
     boolean is_active;
 }
