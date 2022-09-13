@@ -55,5 +55,5 @@ public class UserService implements UserInter {
         dto.setUser_email(user.getUser_email());
         dto.set_active(user.isActive());
         return dto;
-}
+    }
 }

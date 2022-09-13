@@ -1,5 +1,6 @@
 package com.lab2.electronicQueue.service.serviceImpl;
 
+import com.lab2.electronicQueue.DTO.QueueDTO;
 import com.lab2.electronicQueue.entity.Queue;
 import com.lab2.electronicQueue.repository.QueueRepository;
 import com.lab2.electronicQueue.service.serviceInter.QueueInter;
@@ -55,4 +56,14 @@ public class QueueService implements QueueInter {
     public Queue findByQueueName(String queueName) {
         return queueRepository.findByQueueName(queueName);
     }
+
+    public QueueDTO QueueToQueueDTO(Queue queue){
+        QueueDTO dto = new QueueDTO();
+        dto.setId(queue.getId());
+        dto.setQueueName(queue.getQueueName());
+        dto.setUsername(queue.getUser().getUsername());
+        dto.set_active(queue.isActive());
+        return dto;
+    }
+
 }
