@@ -1,5 +1,6 @@
 package com.lab2.electronicQueue.service.serviceImpl;
 
+import com.lab2.electronicQueue.DTO.UserDTO;
 import com.lab2.electronicQueue.entity.User;
 import com.lab2.electronicQueue.repository.UserRepository;
 import com.lab2.electronicQueue.service.serviceInter.UserInter;
@@ -46,4 +47,11 @@ public class UserService implements UserInter {
     public boolean existsUserByUsername(String username) {
         return userRepository.existsUserByUsername(username);
     }
+    public UserDTO UserToUserDTO(User user){
+        UserDTO dto = new UserDTO();
+        dto.setUser_id(user.getId());
+        dto.setUser_name(user.getUsername());
+        dto.set_active(user.isActive());
+        return dto;
+}
 }
