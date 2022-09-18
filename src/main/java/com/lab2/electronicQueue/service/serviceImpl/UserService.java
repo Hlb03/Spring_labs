@@ -47,6 +47,7 @@ public class UserService implements UserInter {
     public boolean existsUserByUsername(String username) {
         return userRepository.existsUserByUsername(username);
     }
+
     public UserDTO UserToUserDTO(User user){
         UserDTO dto = new UserDTO();
         dto.setUser_id(user.getId());

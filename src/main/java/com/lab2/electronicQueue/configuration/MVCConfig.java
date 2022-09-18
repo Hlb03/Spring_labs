@@ -1,7 +1,9 @@
 package com.lab2.electronicQueue.configuration;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -27,13 +29,13 @@ public class MVCConfig implements WebMvcConfigurer {
         return lci;
     }
 
-/*    @Bean(name = "messageSource")
+    @Bean(name = "messageSource")
     public MessageSource getMessageResource() {
         ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
         messageResource.setBasename("classpath:locale/messages");
         messageResource.setDefaultEncoding("UTF-8");
         return messageResource;
-    }*/
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

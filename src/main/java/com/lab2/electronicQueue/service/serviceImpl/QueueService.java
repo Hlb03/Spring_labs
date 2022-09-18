@@ -45,10 +45,11 @@ public class QueueService implements QueueInter {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Queue> findAllQueueFromUser(String username, Pageable pageable, int pageNumber, String direction, String sort) {
+    public Page<QueueDTO> findAllQueueFromUser(String username, Pageable pageable, int pageNumber, String direction, String sort) {
         Pageable changePageable = PageRequest.of(pageNumber - 1, pageable.getPageSize()
                 ,direction.equals("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending());
-        return queueRepository.findAllByUser_Username(username,changePageable);
+        return queueRepository.findAllByUser_Username(username,changePageable)
+                .map(this::QueueToQueueDTO);
     }
 
     @Override

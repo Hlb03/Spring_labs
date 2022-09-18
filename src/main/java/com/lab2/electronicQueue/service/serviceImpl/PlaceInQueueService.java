@@ -33,19 +33,21 @@ public class PlaceInQueueService implements PlaceInQueueInter {
     }
 
     @Override
-    public Page<PlaceInQueue> findAllByQueueName(String queueName, Pageable pageable
+    public Page<PlaceInQueueDTO> findAllByQueueName(String queueName, Pageable pageable
             , int pageNumber, String direction, String sort) {
         Pageable changePageable = PageRequest.of(pageNumber - 1, pageable.getPageSize()
                 ,direction.equals("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending());
-        return placeInQueueRepository.findAllByQueue_QueueName(queueName, changePageable);
+        return placeInQueueRepository.findAllByQueue_QueueName(queueName, changePageable)
+                .map(this::PlaceInQueueToPlaceInQueueDTO);
     }
 
     @Override
-    public Page<PlaceInQueue> findAllByUsername(String username, Pageable pageable
+    public Page<PlaceInQueueDTO> findAllByUsername(String username, Pageable pageable
             , int pageNumber, String direction, String sort) {
         Pageable changePageable = PageRequest.of(pageNumber - 1, pageable.getPageSize()
                 ,direction.equals("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending());
-        return placeInQueueRepository.findAllByUser_Username(username,changePageable);
+        return placeInQueueRepository.findAllByUser_Username(username,changePageable)
+                .map(this::PlaceInQueueToPlaceInQueueDTO);
     }
     public PlaceInQueueDTO PlaceInQueueToPlaceInQueueDTO(PlaceInQueue place_in_queue){
         PlaceInQueueDTO dto = new PlaceInQueueDTO();

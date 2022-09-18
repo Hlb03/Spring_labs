@@ -1,5 +1,6 @@
 package com.lab2.electronicQueue.service.serviceInter;
 
+import com.lab2.electronicQueue.DTO.QueueDTO;
 import com.lab2.electronicQueue.entity.Queue;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,7 @@ public interface QueueInter {
 
     boolean existsByUser_UsernameAndQueueName(String username,String queueName);
 
-    Page<Queue> findAllQueueFromUser(String username, Pageable pageable, int pageNumber, String direction, String sort);
+    Page<QueueDTO> findAllQueueFromUser(String username, Pageable pageable, int pageNumber, String direction, String sort);
 
     Queue findByQueueName(String queueName);
 }
