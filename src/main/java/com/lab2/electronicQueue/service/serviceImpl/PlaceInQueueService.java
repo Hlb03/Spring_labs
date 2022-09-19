@@ -49,6 +49,7 @@ public class PlaceInQueueService implements PlaceInQueueInter {
         return placeInQueueRepository.findAllByUser_Username(username,changePageable)
                 .map(this::PlaceInQueueToPlaceInQueueDTO);
     }
+
     public PlaceInQueueDTO PlaceInQueueToPlaceInQueueDTO(PlaceInQueue place_in_queue){
         PlaceInQueueDTO dto = new PlaceInQueueDTO();
         dto.setId(place_in_queue.getId());
