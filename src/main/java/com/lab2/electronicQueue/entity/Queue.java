@@ -24,8 +24,14 @@ public class Queue implements Serializable {
     @Column(name = "queue_name")
     private String queueName;
 
+    @Column(name = "number_of_seats")
+    private int numberOfSeats;
+
+    @Column(name = "number_of_free_seats")
+    private int numberOfFreeSeats;
+
     @Column(name = "is_active")
-    boolean isActive;
+    private boolean isActive;
 
     @JoinColumn(name = "user_admin_id")
     @ManyToOne(fetch = FetchType.LAZY)

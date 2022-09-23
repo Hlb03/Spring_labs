@@ -31,6 +31,18 @@ public class UserService implements UserInter {
 
     @Override
     @Transactional
+    public void deleteUserByID(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserByUsername(String username) {
+        userRepository.deleteByUsername(username);
+    }
+
+    @Override
+    @Transactional
     public void setUserVerification(boolean newVerificationStatus, String userName) {
         User user = findUserByUsername(userName);
         userRepository.setUserVerification(!user.isActive(),userName);

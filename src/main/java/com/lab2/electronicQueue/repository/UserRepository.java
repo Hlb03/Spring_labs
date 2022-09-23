@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     boolean existsUserByUsername(String username);
 
+    void deleteByUsername(String username);
+
     @Modifying
     @Query(value = "UPDATE user SET is_active = :newVerificationStatus WHERE user_name = :userName", nativeQuery = true)
     void setUserVerification(@Param("newVerificationStatus") boolean newVerificationStatus, @Param("userName") String userName);

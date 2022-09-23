@@ -1,4 +1,4 @@
-package com.lab1.FirstLab.controller;
+package com.lab2.electronicQueue;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

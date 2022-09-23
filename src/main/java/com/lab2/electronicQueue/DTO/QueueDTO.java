@@ -11,5 +11,7 @@ public class QueueDTO {
     long id;
     String queueName;
     String username;
+    int numberOfSeats;
+    int numberOfFreeSeats;
     boolean is_active;
 }

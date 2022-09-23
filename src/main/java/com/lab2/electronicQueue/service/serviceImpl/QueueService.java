@@ -31,9 +31,13 @@ public class QueueService implements QueueInter {
     }
 
     @Override
+    public void deleteQueueByID(Long id) {
+        queueRepository.deleteById(id);
+    }
+
+    @Override
     @Transactional
     public void closeOrOpenQueue(boolean newQueueStatus, String queueName) {
-
         queueRepository.closeOrOpenQueue(newQueueStatus,queueName);
     }
 
@@ -54,14 +58,61 @@ public class QueueService implements QueueInter {
 
     @Override
     @Transactional(readOnly = true)
+    public Page<QueueDTO> findAllQueue(Pageable pageable, int pageNumber, String direction, String sort) {
+        Pageable changePageable = PageRequest.of(pageNumber - 1, pageable.getPageSize()
+                ,direction.equals("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending());
+        return queueRepository.findAll(changePageable)
+                .map(this::QueueToQueueDTO);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<QueueDTO> findAllActiveQueue(boolean isActive, Pageable pageable, int pageNumber, String direction, String sort) {
+        Pageable changePageable = PageRequest.of(pageNumber - 1, pageable.getPageSize()
+                ,direction.equals("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending());
+        return queueRepository.findAllByActive(changePageable, isActive)
+                .map(this::QueueToQueueDTO);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Queue findByQueueName(String queueName) {
         return queueRepository.findByQueueName(queueName);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Queue findById(Long id) {
+        return queueRepository.findQueueById(id);
+    }
+
+    @Override
+    @Transactional
+    public void addFreeSeat(Long id) {
+        Queue selectedQueue = findById(id);
+        int numberOfFreeSeats = selectedQueue.getNumberOfFreeSeats();
+        int numberOfSeats = selectedQueue.getNumberOfSeats();
+        if(numberOfSeats>=numberOfFreeSeats+1){
+            queueRepository.addFreeSeats(id);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void subFreeSeat(Long id) {
+        Queue selectedQueue = findById(id);
+        int numberOfFreeSeats = selectedQueue.getNumberOfFreeSeats();
+        if(0<=numberOfFreeSeats-1){
+            queueRepository.subFreeSeats(id);
+        }
     }
 
     public QueueDTO QueueToQueueDTO(Queue queue){
         QueueDTO dto = new QueueDTO();
         dto.setId(queue.getId());
         dto.setQueueName(queue.getQueueName());
+        dto.setNumberOfSeats(queue.getNumberOfSeats());
+        dto.setNumberOfFreeSeats(queue.getNumberOfFreeSeats());
         dto.setUsername(queue.getUser().getUsername());
         dto.set_active(queue.isActive());
         return dto;
