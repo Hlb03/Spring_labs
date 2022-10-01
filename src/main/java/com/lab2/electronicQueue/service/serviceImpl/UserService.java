@@ -60,13 +60,13 @@ public class UserService implements UserInter {
         return userRepository.existsUserByUsername(username);
     }
 
-    public UserDTO UserToUserDTO(User user){
+    public UserDTO userToUserDTO(User user){
         UserDTO dto = new UserDTO();
-        dto.setUser_id(user.getId());
-        dto.setUser_name(user.getUsername());
-        dto.setUser_role(user.getUserRole());
-        dto.setUser_email(user.getUser_email());
-        dto.set_active(user.isActive());
+        dto.setUserId(user.getId());
+        dto.setUserName(user.getUsername());
+        dto.setUserRole(user.getUserRole());
+        dto.setUserEmail(user.getUserEmail());
+        dto.setActive(user.isActive());
         return dto;
     }
 }

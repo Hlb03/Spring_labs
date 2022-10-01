@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ua" xmlns:th="http://www.thymeleaf.org">
+<head>
+	  <title>Поточні черги</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<div th:include="header::head" style="padding-bottom: 30px"></div>
+
+<main>
+<div class="container flex-grow-1">
+	 <form class="d-flex py-3" role="search">
+          <input class="form-control me-2" type="search" placeholder="Пошук черги">
+          <button class="btn btn-outline-success" type="submit">Пошук</button>
+        </form>
+    <table class="table py-3 table-bordered table-striped text-center" style="margin: 20px">
+    	<thead class="table-info">
+    		<tr>
+    			<th scope="col">id</th>
+    			<th scope="col">Host</th>
+    			<th scope="col">Назва черги</th>
+    			<th scope="col">Кількість вільних місць</th>
+    			<th scope="col">Запис</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<tr th:each="queue : ${queueDTOList}">
+    			<td th:text="${queue.id}"></td>
+    			<td th:text="${queue.hostName}"></td>
+    			<td th:text="${queue.queueName}"></td>
+    			<td th:text="${queue.numberOfFreeSeats}"></td>
+    			<td>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <form>
+                            <button type="button" class="btn btn-outline-primary btn-rounded">Записатися до черги</button>
+                        </form>
+                        <form>
+                            <button type="button" class="btn btn btn-outline-info btn-rounded">Черга інфо</button>
+                        </form>
+                    </div>
+                </td>
+    		</tr>
+    	</tbody>
+    </table>
+</div>
+</main>
+
+<div th:include="footer::foot"></div>
+
+	</body>
+	</html>

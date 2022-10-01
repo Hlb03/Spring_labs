@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ua" xmlns:th="http://www.thymeleaf.org">
+<head>
+	  <title>Додати чергу</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<div class="container-fluid" style="background-color: #CAF2F4">
+    <header class="d-flex justify-content-center py-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="main.html" class="nav-link">Главная</a></li>
+        <li class="nav-item"><a href="allQueues.html" class="nav-link">Поточні черги</a></li>
+        <li class="nav-item"><a href="addQueue.html" class="nav-link active" aria-current="page">Додати чергу</a></li>
+        <li class="nav-item"><a href="userPersonalOffice.html" class="nav-link">Кабінет користувача</a></li>
+      </ul>
+    </header>
+</div>	
+
+<main>
+<form>
+<div class="container px-4 py-5 my-3 border rounded">
+<h1 class="h3 mb-3 fw-normal ">Заповніть форму</h1>
+
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="floatingName">
+      <label for="floatingName">Назва черги</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="number" class="form-control" id="floatingRoom">
+      <label for="floatingRoom">Кількість місць</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Додати чергу</button>
+</div>
+</form>
+</main>
+
+  <footer class="container-fluid mt-auto py-3 border-top border-secondary">
+    <p class="text-center text-muted">Футер</p>
+    <p class="text-center text-muted">&copy; 2022 Company, Inc</p>
+  </footer>
+
+</body>
+	</html>

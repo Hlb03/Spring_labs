@@ -31,7 +31,7 @@ public class Queue implements Serializable {
     private int numberOfFreeSeats;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private boolean active;
 
     @JoinColumn(name = "user_admin_id")
     @ManyToOne(fetch = FetchType.LAZY)

@@ -14,9 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User,Long> {
 
     User findUserByUsername(String username);
-
     boolean existsUserByUsername(String username);
-
     void deleteByUsername(String username);
 
     @Modifying

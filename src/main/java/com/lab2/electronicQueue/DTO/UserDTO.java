@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
-    long user_id;
-    String user_name;
-    UserRole user_role;
-    String user_email;
-    boolean is_active;
+    long userId;
+    String userName;
+    UserRole userRole;
+    String userEmail;
+    boolean isActive;
 }
