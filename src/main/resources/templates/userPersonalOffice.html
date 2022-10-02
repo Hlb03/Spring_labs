@@ -18,22 +18,22 @@
 </div>
 
 <main>
-<div class="container my-3 py-4 border rounded">
-  <h1 class="h3 mb-3 fw-normal ">Кабінет користувача</h1>
-    <p th:text="'Id користувача: '+ ${selectedUser.userId}"></p>
-    <p th:text="'Нік користувача: '+ ${selectedUser.userName}"></p>
-    <p th:text="'Роль користувача: '+ ${selectedUser.userRole}"></p>
-    <p th:text="'E-mail: '+ ${selectedUser.userEmail}"></p>
-    <button class="btn btn-lg btn-primary mb-3" th:action="@{/user/add/queue}" type="submit">Додати чергу</button>
-    <button class="btn btn-lg btn-primary mb-3" th:action="@{/user/all/page/1}" type="submit">В очікуванні</button>
-    <button class="btn btn-lg btn-primary mb-3" th:action="@{/host/all/page/1}" type="submit">Мої черги</button>
-</div>
+    <div class="container my-3 py-4 border rounded">
+        <h1 class="h3 mb-3 fw-normal ">Кабінет користувача</h1>
+        <p th:text="'Id користувача: '+ ${selectedUser.userId}"></p>
+        <p th:text="'Нік користувача: '+ ${selectedUser.userName}"></p>
+        <p th:text="'Роль користувача: '+ ${selectedUser.userRole}"></p>
+        <p th:text="'E-mail: '+ ${selectedUser.userEmail}"></p>
+        <button class="btn btn-lg btn-primary mb-3" th:action="@{/user/add/queue}" type="submit">Додати чергу</button>
+        <button class="btn btn-lg btn-primary mb-3" th:action="@{/user/all/page/1}" type="submit">В очікуванні</button>
+        <button class="btn btn-lg btn-primary mb-3" th:action="@{/host/all/page/1}" type="submit">Мої черги</button>
+    </div>
 </main>
 
 <footer class="container-fluid mt-auto py-3 border-top border-secondary">
     <p class="text-center text-muted">Футер</p>
     <p class="text-center text-muted">&copy; 2022 Company, Inc</p>
-  </footer>
+</footer>
 
-	</body>
-	</html>
+</body>
+</html>

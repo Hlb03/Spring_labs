@@ -2,9 +2,7 @@ package com.lab2.electronicQueue.service.serviceImpl;
 
 import com.lab2.electronicQueue.DTO.PlaceInQueueDTO;
 import com.lab2.electronicQueue.DTO.QueueDTO;
-import com.lab2.electronicQueue.DTO.QueueDTOForAdmin;
 import com.lab2.electronicQueue.entity.Queue;
-import com.lab2.electronicQueue.entity.User;
 import com.lab2.electronicQueue.repository.QueueRepository;
 import com.lab2.electronicQueue.service.serviceInter.QueueInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +21,8 @@ public class QueueService implements QueueInter {
 
     @Autowired
     private QueueRepository queueRepository;
-    @Autowired
-    private PlaceInQueueService placeInQueueService;
+    //@Autowired
+    //private PlaceInQueueService placeInQueueService;
     @Autowired
     private UserService userService;
 
@@ -156,11 +153,11 @@ public class QueueService implements QueueInter {
         dto.setNumberOfFreeSeats(queue.getNumberOfFreeSeats());
         dto.set_active(queue.isActive());
         dto.setHostName(queue.getUser().getUsername());
-        List<String> userNameList = placeInQueueService.findAllByQueueName(queue.getQueueName())
+        /*List<String> userNameList = placeInQueueService.findAllByQueueName(queue.getQueueName())
                 .stream()
                 .map(PlaceInQueueDTO::getUsername)
                 .collect(Collectors.toList());
-        dto.setUserNameList(userNameList);
+        dto.setUserNameList(userNameList);*/
         return dto;
     }
 

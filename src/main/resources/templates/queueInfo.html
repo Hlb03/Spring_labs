@@ -19,13 +19,13 @@
 
 <main>
 <div class="container my-3 py-4 border rounded">
-  <h1 class="h3 mb-3 fw-normal ">Інформація про чергу</h1>
-  <p>Id:</p>
-<p>Назва черги:</p>
-<p>Користувач:</p>
-<p>Кількість місць:</p>
-<p>Кількість вільних місць:</p>
-<p>Активний:</p>
+    <h1 class="h3 mb-3 fw-normal ">Інформація про чергу</h1>
+    <p th:text="'Id: ' + ${selectedQueue.id}"></p>
+    <p th:text="'Назва черги: ' + ${selectedQueue.queueName}">Назва черги:</p>
+    <p th:text="'Host: ' + ${selectedQueue.hostName}">Host:</p>
+    <p th:text="'Кількість місць: ' + ${selectedQueue.numberOfSeats}">Кількість місць:</p>
+    <p th:text="'Кількість вільних місць: ' + ${selectedQueue.numberOfFreeSeats}">Кількість вільних місць:</p>
+    <p th:text="'Статус: ' + ${selectedQueue.is_active}">Статус:</p>
 </div>
 </main>
 

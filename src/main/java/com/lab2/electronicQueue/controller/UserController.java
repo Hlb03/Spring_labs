@@ -12,12 +12,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 
@@ -36,10 +38,10 @@ public class UserController {
     }
 
     @GetMapping
-    public String getUserPage(Model model, @AuthenticationPrincipal User user){
-        UserDTO selectedUser = userService.userToUserDTO(user);
+    public String getUserPage(Model model, Principal principal){
+        UserDTO selectedUser = userService.userToUserDTO(userService.findUserByUsername(principal.getName()));
         model.addAttribute("selectedUser",selectedUser);
-        if(user.getUserRole().name().equals("USER")){
+        if(selectedUser.getUserRole().name().equals("USER")){
             return "userPersonalOffice";
         }
         return "adminPersonalOffice";
@@ -61,13 +63,13 @@ public class UserController {
     }
 
     @GetMapping("/all/page/{pageNumber}")
-    public String getAllQueue(@AuthenticationPrincipal User user
+    public String getAllQueue(Principal principal
             , Model model
             , @PageableDefault(size = 10) Pageable pageable
             , @PathVariable("pageNumber") int pageNumber
             , @RequestParam(required = false, defaultValue = "asc", value = "direction") String direction
             , @RequestParam(required = false, defaultValue = "id",value = "sort") String sort){
-        Page<PlaceInQueueDTO> placeInQueueDTOPage = placeInQueueService.findAllByUsername(user.getUsername(),pageable,pageNumber,direction,sort);
+        Page<PlaceInQueueDTO> placeInQueueDTOPage = placeInQueueService.findAllByUsername(principal.getName(),pageable,pageNumber,direction,sort);
         List<PlaceInQueueDTO> placeInQueueDTOList = placeInQueueDTOPage.getContent();
 
         model.addAttribute("pageNumber",pageNumber);
@@ -81,8 +83,8 @@ public class UserController {
     }
 
     @PostMapping("/record")
-    public String makeARecord(@AuthenticationPrincipal User user, @RequestParam("queueName") String queueName){
-        placeInQueueService.addPlaceInQueue(queueName,user.getUsername());
+    public String makeARecord(Principal principal, @RequestParam("queueName") String queueName){
+        placeInQueueService.addPlaceInQueue(queueName,principal.getName());
         return "redirect:/user/all/page/1";
     }
 }
