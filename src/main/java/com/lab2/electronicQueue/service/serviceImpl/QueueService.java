@@ -32,19 +32,25 @@ public class QueueService implements QueueInter {
     @Override
     @Transactional
     public void addQueue(Queue queue) {
+        queue.setNumberOfFreeSeats(queue.getNumberOfSeats());
         queue.setActive(true);
         queueRepository.save(queue);
     }
 
     @Override
     @Transactional
-    public void update(Queue queue) {
+    public void update(Queue queue, String username) {
+        if(!findByQueueName(queue.getQueueName() ).getUser().getUsername().equals(username)
+                || !userService.findUserByUsername(username).getUserRole().name().equals("ADMIN")){
+            throw new IllegalArgumentException("Bad user");
+        }
         queueRepository.save(queue);
     }
 
     @Override
     public void deleteQueueByID(Long id,String username) {
-        if(!findById(id).getUser().getUsername().equals(username)){
+        if(!findById(id).getUser().getUsername().equals(username)
+                || !userService.findUserByUsername(username).getUserRole().name().equals("ADMIN")){
             throw new IllegalArgumentException("Bad user");
         }
         queueRepository.deleteById(id);
@@ -54,7 +60,8 @@ public class QueueService implements QueueInter {
     @Transactional
     //
     public void closeOrOpenQueue(String queueName,String username) {
-        if(!findByQueueName(queueName).getUser().getUsername().equals(username)){
+        if(!findByQueueName(queueName).getUser().getUsername().equals(username)
+                || !userService.findUserByUsername(username).getUserRole().name().equals("ADMIN")){
             throw new IllegalArgumentException("Bad user");
         }
         boolean isActive = findByQueueName(queueName).isActive();

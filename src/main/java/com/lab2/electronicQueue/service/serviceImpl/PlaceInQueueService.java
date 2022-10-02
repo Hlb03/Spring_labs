@@ -2,6 +2,8 @@ package com.lab2.electronicQueue.service.serviceImpl;
 
 import com.lab2.electronicQueue.DTO.PlaceInQueueDTO;
 import com.lab2.electronicQueue.entity.PlaceInQueue;
+import com.lab2.electronicQueue.entity.Queue;
+import com.lab2.electronicQueue.entity.User;
 import com.lab2.electronicQueue.repository.PlaceInQueueRepository;
 import com.lab2.electronicQueue.service.serviceInter.PlaceInQueueInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class PlaceInQueueService implements PlaceInQueueInter {
     private  PlaceInQueueRepository placeInQueueRepository;
     private  QueueService queueService;
+    private UserService userService;
 
     @Autowired
     public void setQueueService(QueueService queueService) {
@@ -30,9 +33,23 @@ public class PlaceInQueueService implements PlaceInQueueInter {
         this.placeInQueueRepository = placeInQueueRepository;
     }
 
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @Override
     @Transactional
-    public void addPlaceInQueue(PlaceInQueue placeInQueue) {
+    public void addPlaceInQueue(String queueName, String username) {
+        if(isExistUserInQueue(username,queueName)){
+            throw new IllegalArgumentException("This user in queue");
+        }
+        Queue selectedQueue = queueService.findByQueueName(queueName);
+        queueService.subFreeSeat(selectedQueue.getId());
+        User selectedUser = userService.findUserByUsername(username);
+        PlaceInQueue placeInQueue = new PlaceInQueue();
+        placeInQueue.setUser(selectedUser);
+        placeInQueue.setQueue(selectedQueue);
         placeInQueueRepository.save(placeInQueue);
     }
 
@@ -40,6 +57,11 @@ public class PlaceInQueueService implements PlaceInQueueInter {
     @Transactional
     public void deletePlace(String username, String queueName) {
         placeInQueueRepository.deletePlaceInQueueByUser_UsernameAndQueue_QueueName(username, queueName);
+    }
+
+    @Override
+    public boolean isExistUserInQueue(String username, String queueName) {
+        return placeInQueueRepository.existsByUser_UsernameAndQueue_QueueName(username, queueName);
     }
 
     @Override

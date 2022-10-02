@@ -49,11 +49,11 @@
     			<td th:text="${queue.numberOfFreeSeats}"></td>
     			<td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                        <form>
-                            <button type="button" class="btn btn-outline-primary btn-rounded">Записатися до черги</button>
+                        <form th:action="@{/user/record}" method="post">
+                            <button type="submit" th:value="${queue.queueName}" name="queueName" class="btn btn-outline-primary btn-rounded">Записатися до черги</button>
                         </form>
-                        <form>
-                            <button type="button" class="btn btn btn-outline-info btn-rounded">Черга інфо</button>
+                        <form th:action="@{'/queue/' + ${queue.id}}">
+                            <button type="submit" class="btn btn btn-outline-info btn-rounded">Черга інфо</button>
                         </form>
                     </div>
                 </td>

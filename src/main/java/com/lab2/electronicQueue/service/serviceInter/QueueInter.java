@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface QueueInter {
     void addQueue (Queue queue);
-    void update (Queue queue);
+    void update (Queue queue, String username);
     void deleteQueueByID(Long id, String username);
     void  closeOrOpenQueue(String queueName, String username);
     boolean existsByUser_UsernameAndQueueName(String username,String queueName);

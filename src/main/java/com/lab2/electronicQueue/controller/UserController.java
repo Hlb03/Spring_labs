@@ -79,4 +79,10 @@ public class UserController {
         model.addAttribute("reverseDirection", direction.equals("asc") ? "desc" : "asc");
         return "allUserQueues";
     }
+
+    @PostMapping("/record")
+    public String makeARecord(@AuthenticationPrincipal User user, @RequestParam("queueName") String queueName){
+        placeInQueueService.addPlaceInQueue(queueName,user.getUsername());
+        return "redirect:/user/all/page/1";
+    }
 }

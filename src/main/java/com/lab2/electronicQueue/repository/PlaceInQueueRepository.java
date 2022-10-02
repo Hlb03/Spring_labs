@@ -13,11 +13,9 @@ import java.util.List;
 public interface PlaceInQueueRepository extends JpaRepository<PlaceInQueue,Long> {
 
     void deletePlaceInQueueByUser_UsernameAndQueue_QueueName(String username, String queueName);
-
     Page<PlaceInQueue> findAllByQueue_QueueName(String queueName, Pageable pageable);
-
     List<PlaceInQueue> findAllByQueue_QueueName(String queueName);
-
     Page<PlaceInQueue> findAllByUser_Username(String username, Pageable pageable);
+    boolean existsByUser_UsernameAndQueue_QueueName(String username, String queueName);
 
 }

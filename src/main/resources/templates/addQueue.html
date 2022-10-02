@@ -19,17 +19,24 @@
 </div>	
 
 <main>
-<form>
+<form th:action="@{/user/add/queue}" th:object="${queue}">
 <div class="container px-4 py-5 my-3 border rounded">
 <h1 class="h3 mb-3 fw-normal ">Заповніть форму</h1>
-
     <div class="form-floating mb-3">
-      <input type="text" class="form-control" id="floatingName">
+      <input type="text" class="form-control" th:field="*{queueName}" id="floatingName" name="queueName">
       <label for="floatingName">Назва черги</label>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('queueName')}"
+              th:errors="*{queueName}" style="color: red">
+        </span>
     </div>
     <div class="form-floating mb-3">
-      <input type="number" class="form-control" id="floatingRoom">
+      <input type="number" class="form-control" th:field="*{numberOfSeats}" id="floatingRoom" name="numberOfSeats">
       <label for="floatingRoom">Кількість місць</label>
+        <span class="validationError"
+              th:if="${#fields.hasErrors('numberOfSeats')}"
+              th:errors="*{numberOfSeats}" style="color: red">
+        </span>
     </div>
     <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Додати чергу</button>
 </div>
