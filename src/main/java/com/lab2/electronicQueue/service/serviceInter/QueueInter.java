@@ -11,8 +11,8 @@ import java.util.List;
 public interface QueueInter {
     void addQueue (Queue queue);
     void update (Queue queue);
-    void deleteQueueByID(Long id);
-    void  closeOrOpenQueue(String queueName);
+    void deleteQueueByID(Long id, String username);
+    void  closeOrOpenQueue(String queueName, String username);
     boolean existsByUser_UsernameAndQueueName(String username,String queueName);
     Page<QueueDTO> findAllQueueFromUser(String username, Pageable pageable, int pageNumber, String direction, String sort);
     Page<QueueDTO> findAllQueue(Pageable pageable, int pageNumber, String direction, String sort);

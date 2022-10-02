@@ -18,10 +18,26 @@
     <table class="table py-3 table-bordered table-striped text-center" style="margin: 20px">
     	<thead class="table-info">
     		<tr>
-    			<th scope="col">id</th>
-    			<th scope="col">Host</th>
-    			<th scope="col">Назва черги</th>
-    			<th scope="col">Кількість вільних місць</th>
+    			<th scope="col">
+					<a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=id'}">
+						id
+					</a>
+				</th>
+    			<th scope="col">
+					<a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=user.username'}">
+						Host
+					</a>
+				</th>
+    			<th scope="col">
+					<a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=queueName'}">
+						Назва черги
+					</a>
+				</th>
+    			<th scope="col">
+					<a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=numberOfFreeSeats'}">
+						Кількість вільних місць
+					</a>
+				</th>
     			<th scope="col">Запис</th>
     		</tr>
     	</thead>
@@ -46,6 +62,91 @@
     </table>
 </div>
 </main>
+
+<nav aria-label="...">
+	<ul class="pagination justify-content-center">
+		<th:block th:if="${pageNumber}>1">
+			<li class="page-item">
+				<a class="page-link" th:href = "@{'/queue/all/page/' + ${1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">First</a>
+			</li>
+		</th:block>
+		<th:block th:unless="${pageNumber}>1">
+			<li class="page-item disabled">
+				<a class="page-link" href="#" tabindex="-1" aria-disabled="true">First</a>
+			</li>
+		</th:block>
+		<!-- Previous -->
+		<th:block th:if="${pageNumber}>1">
+			<li class="page-item">
+				<a class="page-link" th:href = "@{'/queue/all/page/' + ${pageNumber - 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">Previous</a>
+			</li>
+		</th:block>
+		<th:block th:unless="${pageNumber}>1">
+			<li class="page-item disabled">
+				<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+			</li>
+		</th:block>
+		<!-- f -->
+		<th:block th:if="${pageable.getTotalPages()} <= 10">
+			<th:block th:each="i : ${#numbers.sequence(1,pageable.getTotalPages())}">
+				<th:block th:if="${i} == ${pageNumber}">
+					<li class="page-item active" aria-current="page">
+						<span class="page-link">[[${i}]]</span>
+					</li>
+				</th:block>
+				<th:block th:unless="${i} == ${pageNumber}">
+					<li class="page-item">
+						<a class="page-link" th:href = "@{'/queue/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
+					</li>
+				</th:block>
+			</th:block>
+		</th:block>
+
+		<th:block th:if="${pageable.getTotalPages()} >  10">
+			<th:block th:if="${pageNumber <= 5 || pageNumber > pageable.getTotalPages()-4}">
+				<li th:each="i : ${#numbers.sequence(1,5)}" th:class="${pageNumber != i ? 'page-item' : 'page-item active'}">
+					<a class="page-link" th:href = "@{'/queue/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
+				</li>
+
+				<a class="page-link" th:href = "@{'/queue/all/page/' + '6'+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
+
+				<li th:each="i : ${#numbers.sequence(pageable.getTotalPages()-4,pageable.getTotalPages())}" th:class="${pageNumber != i ? 'page-item' : 'page-item active'}">
+					<a class="page-link" th:href = "@{'/queue/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
+				</li>
+			</th:block>
+
+			<th:block th:if="${pageNumber > 5 && pageNumber < pageable.getTotalPages()-4}">
+				<li th:each="i : ${#numbers.sequence(1,5)}" th:class="${pageNumber != i ? 'page-item' : 'page-item active'}">
+					<a class="page-link" th:href = "@{'/queue/all/page/' + ${pageNumber - 5}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
+				</li>
+			</th:block>
+
+		</th:block>
+
+		<!-- Next -->
+		<th:block th:if="${pageNumber}<${pageable.getTotalPages()}">
+			<li class="page-item">
+				<a class="page-link" th:href = "@{'/queue/all/page/' + ${pageNumber + 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">Next</a>
+			</li>
+		</th:block>
+		<th:block th:unless="${pageNumber}<${pageable.getTotalPages()}">
+			<li class="page-item disabled">
+				<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
+			</li>
+		</th:block>
+
+		<th:block th:if="${pageNumber}<${pageable.getTotalPages()}">
+			<li class="page-item">
+				<a class="page-link" th:href = "@{'/queue/all/page/' + ${pageable.getTotalPages()}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">Last</a>
+			</li>
+		</th:block>
+		<th:block th:unless="${pageNumber}<${pageable.getTotalPages()}">
+			<li class="page-item disabled">
+				<a class="page-link" href="#" tabindex="-1" aria-disabled="true">Last</a>
+			</li>
+		</th:block>
+	</ul>
+</nav>
 
 <div th:include="footer::foot"></div>
 

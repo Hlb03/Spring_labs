@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,8 @@ public class QueueService implements QueueInter {
     private QueueRepository queueRepository;
     @Autowired
     private PlaceInQueueService placeInQueueService;
+    @Autowired
+    private UserService userService;
 
     @Override
     @Transactional
@@ -40,14 +43,20 @@ public class QueueService implements QueueInter {
     }
 
     @Override
-    public void deleteQueueByID(Long id) {
+    public void deleteQueueByID(Long id,String username) {
+        if(!findById(id).getUser().getUsername().equals(username)){
+            throw new IllegalArgumentException("Bad user");
+        }
         queueRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     //
-    public void closeOrOpenQueue(String queueName) {
+    public void closeOrOpenQueue(String queueName,String username) {
+        if(!findByQueueName(queueName).getUser().getUsername().equals(username)){
+            throw new IllegalArgumentException("Bad user");
+        }
         boolean isActive = findByQueueName(queueName).isActive();
         queueRepository.closeOrOpenQueue(!isActive, queueName);
     }
@@ -93,9 +102,12 @@ public class QueueService implements QueueInter {
 
     @Override
     @Transactional
-    // add @PreAuthorize
+    // ?
+    /*@PreAuthorize("hasRole('ADMIN') ||" +
+            "returnObject.user.username == authentication.name")*/
     public QueueDTO findToHost(String queueName, String username) {
-        if(existsByUser_UsernameAndQueueName(username,queueName)){
+        if(existsByUser_UsernameAndQueueName(username,queueName)
+                || userService.findUserByUsername(username).getUserRole().name().equals("ADMIN")){
             return queueToQueueDTO(findByQueueName(queueName));
         }
         return new QueueDTO();

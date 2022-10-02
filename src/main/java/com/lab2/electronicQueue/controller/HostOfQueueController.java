@@ -53,9 +53,15 @@ public class HostOfQueueController {
     }
 
     @PostMapping("/block/queue/{queueName}")
-    public String blockQueue(@PathVariable("queueName") String queueName){
-        queueService.closeOrOpenQueue(queueName);
-        return "redirect:/all/queue";
+    public String blockQueue(@PathVariable("queueName") String queueName, @AuthenticationPrincipal User user){
+        queueService.closeOrOpenQueue(queueName,user.getUsername());
+        return "redirect:/host/all/page/1";
+    }
+
+    @PostMapping("/delete/queue/{id}")
+    public String deleteQueue(@PathVariable("id") Long id, @AuthenticationPrincipal User user){
+        queueService.deleteQueueByID(id,user.getUsername());
+        return "redirect:/host/all/page/1";
     }
 
 

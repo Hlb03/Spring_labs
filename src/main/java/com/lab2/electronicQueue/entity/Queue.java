@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -21,9 +25,13 @@ public class Queue implements Serializable {
     @Column(name = "id")
     private long id;
 
+    @NotBlank(message = "This field can't be blank")
+    @Size(min = 2, max = 32, message = "length must be from 2 to 32 characters")
     @Column(name = "queue_name")
     private String queueName;
 
+    @NotNull(message = "This field can't be blank")
+    @Min(value = 0, message = "Count of compartment seats can't negative")
     @Column(name = "number_of_seats")
     private int numberOfSeats;
 
