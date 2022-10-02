@@ -35,3 +35,15 @@ create table place_in_queue(
                                foreign key(user_id) references user(id),
                                foreign key(queue_id) references queue(id)
 );
+
+insert into user_role(user_role) value
+    ('USER'),('ADMIN');
+
+insert into user(user_name,user_password,user_role,is_active,user_email) value
+/*pass: testuser*/
+    ('TestUser','$2a$12$mjxwynrtRBYRJ1ietc.31OQUzA54Lw9G9Rqp3REO26iI5.fjO5Q3G','USER',true,'testUser@gmail.com'),
+/*pass: testadmin*/
+    ('TestAdmin','$2a$12$9tcavON6VVv6pkyKAQ2DFeVPBk8oqegu0RaEyTBUKy4FgPxu/0qsC','ADMIN',true,'testAdmin@gmail.com');
+
+insert into queue(queue_name,number_of_seats,number_of_free_seats,is_active,user_admin_id) value
+    ('Queue1',20,20,true,1);

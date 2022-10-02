@@ -108,7 +108,7 @@ public class QueueService implements QueueInter {
 
     @Override
     @Transactional(readOnly = true)
-    public Queue findByQueueName(String queueName) {
+    public Queue findByQueueName(String queueName)  {
         return queueRepository.findByQueueName(queueName);
     }
 

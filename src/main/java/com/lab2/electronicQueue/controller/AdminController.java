@@ -1,6 +1,8 @@
 package com.lab2.electronicQueue.controller;
 
 import com.lab2.electronicQueue.DTO.UserDTO;
+import com.lab2.electronicQueue.service.serviceImpl.PlaceInQueueService;
+import com.lab2.electronicQueue.service.serviceImpl.QueueService;
 import com.lab2.electronicQueue.service.serviceImpl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,16 +12,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
+    private final QueueService queueService;
+    private final PlaceInQueueService placeInQueueService;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, QueueService queueService, PlaceInQueueService placeInQueueService) {
         this.userService = userService;
+        this.queueService = queueService;
+        this.placeInQueueService = placeInQueueService;
     }
 
     @GetMapping("/all/users/page/{pageNumber}")
@@ -40,7 +47,7 @@ public class AdminController {
         return "allUsersForAdmin";
     }
 
-    @PostMapping("/set/status/{username}")
+    @PostMapping("/set/user/status/{username}")
     public String changeUserAccountStatus(@PathVariable("username") String username){
         userService.setUserVerification(username);
         return "redirect:/admin/all/users/page/1";
@@ -52,5 +59,16 @@ public class AdminController {
         return "redirect:/admin/all/users/page/1";
     }
 
+    @PostMapping("/set/queue/status/{queueName}")
+    public String changeQueueStatus(@PathVariable("queueName") String queueName, Principal principal){
+        queueService.closeOrOpenQueue(queueName, principal.getName());
+        return "redirect:/admin/all/users/page/1";
+    }
+
+    @PostMapping("/delete/queue/{id}")
+    public String deleteQueueById(@PathVariable("id") Long id, Principal principal){
+        queueService.deleteQueueByID(id,principal.getName());
+        return "redirect:/admin/all/users/page/1";
+    }
 
 }

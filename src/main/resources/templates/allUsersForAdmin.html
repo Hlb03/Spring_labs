@@ -53,7 +53,7 @@
                             <button type="submit" name="queueName" class="btn btn-outline-primary btn-rounded">Info</button>
                         </form>
                         <th:block th:if="${user.userRole} == 'USER'">
-                            <form th:action="@{'/admin/set/status/' + ${user.userName}}" method="post">
+                            <form th:action="@{'/admin/set/user/status/' + ${user.userName}}" method="post">
                                 <button type="submit" th:class="${user.isActive} == true ? 'btn btn-outline-danger' : 'btn btn-outline-success'"
                                         th:text="${user.isActive} == true ? 'Заблокувати' : 'Розблокувати'" th:value="${pageNumber}"></button>
                             </form>
