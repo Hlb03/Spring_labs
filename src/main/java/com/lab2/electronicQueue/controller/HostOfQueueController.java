@@ -1,7 +1,6 @@
 package com.lab2.electronicQueue.controller;
 
 import com.lab2.electronicQueue.DTO.QueueDTO;
-import com.lab2.electronicQueue.entity.Queue;
 import com.lab2.electronicQueue.entity.User;
 import com.lab2.electronicQueue.service.serviceImpl.QueueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class HostOfQueueController {
         model.addAttribute("sort", sort);
         model.addAttribute("direction", direction);
         model.addAttribute("reverseDirection", direction.equals("asc") ? "desc" : "asc");
-        return "allHostQueue";
+        return "allHostQueues";
     }
 
     @GetMapping("/{queueName}")

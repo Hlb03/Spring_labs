@@ -1,9 +1,7 @@
 package com.lab2.electronicQueue.service.serviceImpl;
 
 import com.lab2.electronicQueue.DTO.PlaceInQueueDTO;
-import com.lab2.electronicQueue.DTO.QueueDTO;
 import com.lab2.electronicQueue.entity.PlaceInQueue;
-import com.lab2.electronicQueue.entity.Queue;
 import com.lab2.electronicQueue.repository.PlaceInQueueRepository;
 import com.lab2.electronicQueue.service.serviceInter.PlaceInQueueInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class PlaceInQueueService implements PlaceInQueueInter {
-    private PlaceInQueueRepository placeInQueueRepository;
+    private  PlaceInQueueRepository placeInQueueRepository;
+    private  QueueService queueService;
+
+    @Autowired
+    public void setQueueService(QueueService queueService) {
+        this.queueService = queueService;
+    }
 
     @Autowired
     public void setPlaceInQueueRepository(PlaceInQueueRepository placeInQueueRepository) {
@@ -71,7 +75,7 @@ public class PlaceInQueueService implements PlaceInQueueInter {
         PlaceInQueueDTO dto = new PlaceInQueueDTO();
         dto.setId(place_in_queue.getId());
         dto.setUsername(place_in_queue.getUser().getUsername());
-        dto.setQueue(place_in_queue.getQueue());
+        dto.setQueueDTO(queueService.queueToQueueDTO(place_in_queue.getQueue()));
         return dto;
     }
 }

@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class PlaceInQueueDTO {
     long id;
     String username;
-    Queue queue;
+    QueueDTO queueDTO;
 }
