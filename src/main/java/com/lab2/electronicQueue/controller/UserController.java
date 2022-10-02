@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -41,7 +39,7 @@ public class UserController {
     public String getUserPage(Model model, Principal principal){
         UserDTO selectedUser = userService.userToUserDTO(userService.findUserByUsername(principal.getName()));
         model.addAttribute("selectedUser",selectedUser);
-        if(selectedUser.getUserRole().name().equals("USER")){
+        if(selectedUser.getUserRole().equals("USER")){
             return "userPersonalOffice";
         }
         return "adminPersonalOffice";
@@ -54,11 +52,11 @@ public class UserController {
     }
 
     @PostMapping("/add/queue")
-    public String addQueue(@Valid @ModelAttribute Queue queue, Errors errors){
+    public String addQueue(@Valid @ModelAttribute Queue queue, Errors errors, Principal principal){
         if(errors.hasErrors()){
             return "addQueue";
         }
-        queueService.addQueue(queue);
+        queueService.addQueue(queue,principal.getName());
         return "redirect:/user";
     }
 
@@ -85,6 +83,6 @@ public class UserController {
     @PostMapping("/record")
     public String makeARecord(Principal principal, @RequestParam("queueName") String queueName){
         placeInQueueService.addPlaceInQueue(queueName,principal.getName());
-        return "redirect:/user/all/page/1";
+        return "redirect:/queue/all/page/1";
     }
 }

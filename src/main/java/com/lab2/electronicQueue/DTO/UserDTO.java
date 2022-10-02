@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
     long userId;
     String userName;
-    UserRole userRole;
+    String userRole;
     String userEmail;
     boolean isActive;
 }

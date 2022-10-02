@@ -24,6 +24,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/user/**","/record/**","/host/**").authenticated()/*.hasAnyRole(UserRole.ADMIN.name(),UserRole.USER.name())*/
+                .antMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
+                .anyRequest()
+                .permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/")
+                .permitAll()
+                .and()
+                .sessionManagement()
+                .invalidSessionUrl("/")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false);
+    }
+
+    /*@Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/user/**","/record/**","/host/**").authenticated()
                     .antMatchers("/admin/**").hasRole(UserRole.ADMIN.name())
@@ -43,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                     .invalidSessionUrl("/")
                     .maximumSessions(1)
-                    .maxSessionsPreventsLogin(true);
-    }
+                    .maxSessionsPreventsLogin(false);
+    }*/
 
     @Bean
     protected DaoAuthenticationProvider daoAuthenticationProvider(){

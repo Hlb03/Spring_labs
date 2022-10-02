@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,14 +22,15 @@ public class QueueService implements QueueInter {
 
     @Autowired
     private QueueRepository queueRepository;
-    //@Autowired
-    //private PlaceInQueueService placeInQueueService;
+    /*@Autowired
+    private PlaceInQueueService placeInQueueService;*/
     @Autowired
     private UserService userService;
 
     @Override
     @Transactional
-    public void addQueue(Queue queue) {
+    public void addQueue(Queue queue, String username) {
+        queue.setUser(userService.findUserByUsername(username));
         queue.setNumberOfFreeSeats(queue.getNumberOfSeats());
         queue.setActive(true);
         queueRepository.save(queue);
@@ -36,6 +38,8 @@ public class QueueService implements QueueInter {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN') ||" +
+            "#username == authentication.principal.username")
     public void update(Queue queue, String username) {
         if(!findByQueueName(queue.getQueueName() ).getUser().getUsername().equals(username)
                 || !userService.findUserByUsername(username).getUserRole().name().equals("ADMIN")){
@@ -45,6 +49,9 @@ public class QueueService implements QueueInter {
     }
 
     @Override
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') ||" +
+            "#username == authentication.principal.username")
     public void deleteQueueByID(Long id,String username) {
         if(!findById(id).getUser().getUsername().equals(username)
                 || !userService.findUserByUsername(username).getUserRole().name().equals("ADMIN")){
@@ -55,7 +62,8 @@ public class QueueService implements QueueInter {
 
     @Override
     @Transactional
-    //
+    @PreAuthorize("hasRole('ADMIN') ||" +
+            "#username == authentication.principal.username")
     public void closeOrOpenQueue(String queueName,String username) {
         if(!findByQueueName(queueName).getUser().getUsername().equals(username)
                 || !userService.findUserByUsername(username).getUserRole().name().equals("ADMIN")){
@@ -106,9 +114,8 @@ public class QueueService implements QueueInter {
 
     @Override
     @Transactional
-    // ?
-    /*@PreAuthorize("hasRole('ADMIN') ||" +
-            "returnObject.user.username == authentication.name")*/
+    @PreAuthorize("hasRole('ADMIN') ||" +
+            "#username == authentication.principal.username")
     public QueueDTO findToHost(String queueName, String username) {
         if(existsByUser_UsernameAndQueueName(username,queueName)
                 || userService.findUserByUsername(username).getUserRole().name().equals("ADMIN")){

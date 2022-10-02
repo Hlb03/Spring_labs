@@ -32,7 +32,7 @@ public class AdminController {
         List<UserDTO> userDTOList = userDTOPage.getContent();
         model.addAttribute("pageNumber",pageNumber);
         model.addAttribute("pageable",userDTOPage);
-        model.addAttribute("queueDTOList",userDTOList);
+        model.addAttribute("userDTOList",userDTOList);
 
         model.addAttribute("sort", sort);
         model.addAttribute("direction", direction);
@@ -43,6 +43,12 @@ public class AdminController {
     @PostMapping("/set/status/{username}")
     public String changeUserAccountStatus(@PathVariable("username") String username){
         userService.setUserVerification(username);
+        return "redirect:/admin/all/users/page/1";
+    }
+
+    @PostMapping("/delete/user/{username}")
+    public String deleteUserByUsername(@PathVariable("username") String username){
+        userService.deleteUserByUsername(username);
         return "redirect:/admin/all/users/page/1";
     }
 

@@ -16,11 +16,11 @@ public interface QueueRepository extends JpaRepository<Queue,Long> {
     void closeOrOpenQueue(@Param("newQueueStatus") boolean newQueueStatus, @Param("queueName") String queueName);
 
     @Modifying
-    @Query(value = "UPDATE queue SET number_of_free_seats = number_of_free_seats-1 where id =: id", nativeQuery = true)
+    @Query(value = "UPDATE queue SET number_of_free_seats = number_of_free_seats-1 where id =:id", nativeQuery = true)
     void subFreeSeats(@Param("id") Long id);
 
     @Modifying
-    @Query(value = "UPDATE queue SET number_of_free_seats = number_of_free_seats+1 where id =: id", nativeQuery = true)
+    @Query(value = "UPDATE queue SET number_of_free_seats = number_of_free_seats+1 where id =:id", nativeQuery = true)
     void addFreeSeats(@Param("id") Long id);
 
     boolean existsByUser_UsernameAndQueueName(String username,String queueName);

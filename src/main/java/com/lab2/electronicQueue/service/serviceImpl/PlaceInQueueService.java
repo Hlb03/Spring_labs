@@ -97,7 +97,7 @@ public class PlaceInQueueService implements PlaceInQueueInter {
         PlaceInQueueDTO dto = new PlaceInQueueDTO();
         dto.setId(place_in_queue.getId());
         dto.setUsername(place_in_queue.getUser().getUsername());
-        dto.setQueueDTO(queueService.queueToQueueDTO(place_in_queue.getQueue()));
+        dto.setQueueDTO(queueService.queueToQueueDTO(queueService.findByQueueName(place_in_queue.getQueue().getQueueName())));
         return dto;
     }
 }
