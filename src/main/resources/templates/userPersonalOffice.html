@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ua" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Сторінка користувача</title>
+    <title>[[#{head.link.user}]]</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
@@ -11,31 +11,36 @@
 <div class="container-fluid" style="background-color: #CAF2F4">
     <header class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a th:href="@{/}" class="nav-link">Главная</a></li>
-            <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">Поточні черги</a></li>
-            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">Додати чергу</a></li>
-            <li class="nav-item"><a th:href="@{/user}" class="nav-link active" aria-current="page">Кабінет
-                користувача</a></li>
+            <li class="nav-item"><a th:href="@{/}" class="nav-link">[[#{head.link.home}]]</a></li>
+            <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">[[#{head.link.queues}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">[[#{head.link.add.queue}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user}" class="nav-link active" aria-current="page">[[#{head.link.user}]]</a></li>
         </ul>
     </header>
 </div>
 
 <main>
     <div class="container my-3 py-4 border rounded">
-        <h1 class="h3 mb-3 fw-normal ">Кабінет користувача</h1>
+        <h1 class="h3 mb-3 fw-normal ">[[#{head.link.user}]]</h1>
         <p th:text="'Id користувача: '+ ${selectedUser.userId}"></p>
         <p th:text="'Нік користувача: '+ ${selectedUser.userName}"></p>
         <p th:text="'Роль користувача: '+ ${selectedUser.userRole}"></p>
         <p th:text="'E-mail: '+ ${selectedUser.userEmail}"></p>
 
         <form th:action="@{/user/add/queue}" method="get">
-            <button class="btn btn-lg btn-primary mb-3" type="submit">Додати чергу</button>
+            <button class="btn btn-lg btn-primary mb-3" type="submit">[[#{head.link.add.queues}]]</button>
         </form>
         <form th:action="@{/user/all/page/1}" method="get">
-            <button class="btn btn-lg btn-primary mb-3" type="submit">В очікуванні</button>
+            <button class="btn btn-lg btn-primary mb-3" type="submit">[[#{button.pending}]]</button>
         </form>
-        <form th:action="@{/host/all/page/1}" method="get">
-            <button class="btn btn-lg btn-primary mb-3" type="submit">Мої черги</button>
+<!--        <form th:action="@{/host/all/page/1}" method="get">-->
+        <form th:action="@{/user/host/all/page/1}" method="get">
+            <button class="btn btn-lg btn-primary mb-3" type="submit">[[#{button.myQueue}]]</button>
+        </form>
+
+        <!-- Add localization -->
+        <form th:action="@{/logout}" method="post">
+            <button class="btn btn-lg btn-primary mb-3" type="submit">Вийти з аккаунту</button>
         </form>
     </div>
 </main>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ua">
 <head>
-    <title>Реєстрація</title>
+    <title>[[#{title.registration}]]</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
@@ -11,10 +11,10 @@
 <div class="container-fluid" style="background-color: #CAF2F4">
     <header class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a th:href="@{/}" class="nav-link">Главная</a></li>
-            <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">Поточні черги</a></li>
-            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link ">Додати чергу</a></li>
-            <li class="nav-item"><a th:href="@{/user}" class="nav-link">Кабінет користувача</a></li>
+            <li class="nav-item"><a th:href="@{/}" class="nav-link">[[#{head.link.home}]]</a></li>
+            <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">[[#{head.link.queues}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link ">[[#{head.link.add.queue}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user}" class="nav-link">[[#{head.link.user}]]</a></li>
         </ul>
     </header>
 </div>
@@ -22,11 +22,11 @@
 <main>
     <form class="w-50 m-auto px-4 py-4 my-3 border rounded" th:object="${user}" th:action="@{/registration}"
           method="post">
-        <h1 class="h3 mb-3 fw-normal ">Заповніть форму реєстрації</h1>
+        <h1 class="h3 mb-3 fw-normal ">[[#{registration.form}]]</h1>
 
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="floatingLogin" name="userName" th:field="*{username}">
-            <label for="floatingLogin">Логін</label>
+            <label for="floatingLogin">[[#{user.login}]]</label>
             <span class="validationError"
                   th:if="${#fields.hasErrors('username')}"
                   th:errors="*{username}" style="color: red">
@@ -42,7 +42,7 @@
         </div>
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="floatingEmail" name="userEmail" th:field="*{userEmail}">
-            <label for="floatingEmail">E-mail</label>
+            <label for="floatingEmail">[[#{user.email}]]</label>
             <span class="validationError"
                   th:if="${#fields.hasErrors('userEmail')}"
                   th:errors="*{userEmail}" style="color: red">
@@ -51,7 +51,7 @@
         <div class="form-floating mb-3">
             <input type="password" class="form-control" id="floatingPassword" name="userPassword"
                    th:field="*{userPassword}">
-            <label for="floatingPassword">Пароль</label>
+            <label for="floatingPassword">[[#{user.password}]]</label>
             <span class="validationError"
                   th:if="${#fields.hasErrors('userPassword')}"
                   th:errors="*{userPassword}" style="color: red">
@@ -59,9 +59,9 @@
         </div>
         <div class="form-floating mb-3">
             <input type="password" class="form-control" id="floatingRePassword" name="secondPassword">
-            <label for="floatingRePassword">Повторіть пароль</label>
+            <label for="floatingRePassword">[[#{user.repassword}]]</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Зареєструватися</button>
+        <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">[[#{button.registration}]]</button>
     </form>
 </main>
 
