@@ -30,12 +30,12 @@ public class QueueController {
             , @PageableDefault(size = 10) Pageable pageable
             , @PathVariable("pageNumber") int pageNumber
             , @RequestParam(required = false, defaultValue = "asc", value = "direction") String direction
-            , @RequestParam(required = false, defaultValue = "id",value = "sort") String sort){
-        Page<QueueDTO> queuePage = queueService.findAllQueue(pageable,pageNumber,direction,sort);
+            , @RequestParam(required = false, defaultValue = "id", value = "sort") String sort) {
+        Page<QueueDTO> queuePage = queueService.findAllQueue(pageable, pageNumber, direction, sort);
         List<QueueDTO> queueDTOList = queuePage.getContent();
-        model.addAttribute("pageNumber",pageNumber);
-        model.addAttribute("pageable",queuePage);
-        model.addAttribute("queueDTOList",queueDTOList);
+        model.addAttribute("pageNumber", pageNumber);
+        model.addAttribute("pageable", queuePage);
+        model.addAttribute("queueDTOList", queueDTOList);
 
         model.addAttribute("sort", sort);
         model.addAttribute("direction", direction);
@@ -44,16 +44,21 @@ public class QueueController {
     }
 
     @GetMapping("/{id}")
-    public String getQueueById(@PathVariable("id") Long id, Model model){
+    public String getQueueById(@PathVariable("id") Long id, Model model) {
         QueueDTO selectedQueue = queueService.queueToQueueDTO(queueService.findById(id));
-        model.addAttribute("selectedQueue",selectedQueue);
-        return "queuePage";
+        model.addAttribute("selectedQueue", selectedQueue);
+        return "queueInfo";
     }
 
-    @GetMapping("/{queueName}")
-    public String getQueueByQueueName(@PathVariable("queueName") String queueName, Model model){
-        QueueDTO selectedQueue = queueService.queueToQueueDTO(queueService.findByQueueName(queueName));
-        model.addAttribute("selectedQueue",selectedQueue);
-        return "queuePage";
-    }
+     /*
+        Ambiguous. Spring can't definitely match which one to use.
+        Reason - both {id} and {queueName} come as String param
+     */
+//    @GetMapping("/{queueName}")
+//    public String getQueueByQueueName(@PathVariable("queueName") String queueName, Model model){
+//        QueueDTO selectedQueue = queueService.queueToQueueDTO(queueService.findByQueueName(queueName));
+//        model.addAttribute("selectedQueue",selectedQueue);
+//        return "queuePage";
+////        return "queueInfo";
+//    }
 }

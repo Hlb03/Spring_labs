@@ -28,4 +28,7 @@ public class PlaceInQueue implements Serializable {
     @ManyToOne
     @JoinColumn(name = "queue_id")
     private Queue queue;
+
+    @Column(name = "order_in_queue")
+    private int orderInQueue;
 }

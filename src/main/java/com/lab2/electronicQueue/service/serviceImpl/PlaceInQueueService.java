@@ -50,6 +50,8 @@ public class PlaceInQueueService implements PlaceInQueueInter {
         PlaceInQueue placeInQueue = new PlaceInQueue();
         placeInQueue.setUser(selectedUser);
         placeInQueue.setQueue(selectedQueue);
+        placeInQueue.setOrderInQueue(findMaxOrderInQueue(queueName));
+
         placeInQueueRepository.save(placeInQueue);
     }
 
@@ -98,6 +100,23 @@ public class PlaceInQueueService implements PlaceInQueueInter {
         dto.setId(place_in_queue.getId());
         dto.setUsername(place_in_queue.getUser().getUsername());
         dto.setQueueDTO(queueService.queueToQueueDTO(queueService.findByQueueName(place_in_queue.getQueue().getQueueName())));
+        dto.setOrderInQueue(place_in_queue.getOrderInQueue());
         return dto;
+    }
+
+    private int findMaxOrderInQueue(String queueName) {
+        List<PlaceInQueue> allQueueByName = placeInQueueRepository.findAllByQueue_QueueName(queueName);
+
+        int maxInQueue = 1;
+
+        if (allQueueByName == null)
+            return maxInQueue;
+
+        for (PlaceInQueue q : allQueueByName){
+            if (q.getOrderInQueue() > maxInQueue)
+                maxInQueue = q.getOrderInQueue();
+        }
+
+        return maxInQueue + 1;
     }
 }
