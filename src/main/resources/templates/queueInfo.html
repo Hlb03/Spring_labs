@@ -12,7 +12,7 @@
     <header class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills">
             <li class="nav-item"><a th:href="@{/}" class="nav-link">Главная</a></li>
-            <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">Поточні черги</a></li>
+            <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link active" aria-current="page">Поточні черги</a></li>
             <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">Додати чергу</a></li>
             <li class="nav-item"><a th:href="@{/user}" class="nav-link">Кабінет користувача</a></li>
         </ul>
@@ -22,7 +22,7 @@
 <main>
     <div class="container my-3 py-4 border rounded">
         <h1 class="h3 mb-3 fw-normal ">Інформація про чергу</h1>
-<!--        <p th:text="'Id: ' + ${selectedQueue.id}"></p>-->
+        <!--        <p th:text="'Id: ' + ${selectedQueue.id}"></p>-->
         <p th:text="'Назва черги: ' + ${selectedQueue.queueName}">Назва черги:</p>
         <p th:text="'Host: ' + ${selectedQueue.hostName}">Host:</p>
         <p th:text="'Кількість місць: ' + ${selectedQueue.numberOfSeats}">Кількість місць:</p>
@@ -30,8 +30,27 @@
         <p th:if="${selectedQueue.is_active}" th:text="'Статус: Активна'"/>
         <p th:if="${!selectedQueue.is_active}" th:text="'Статус: Завершена'"/>
     </div>
-</main>
+    <br>
 
+    <!-- Add if else to represent users in queue or print smth like "No one here" -->
+    <div class="container flex-grow-1">
+        <table class="table py-3 table-bordered table-striped text-center" style="margin: 20px">
+            <thead class="table-info">
+            <tr>
+                <td>Номер у черзі</td>
+                <td>Ім'я користувача</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="users : ${usersInQueue}">
+                <td th:text="${users.orderInQueue}"></td>
+                <td th:text="${users.username}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
 <div th:include="footer::foot"></div>
 
 </body>

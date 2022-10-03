@@ -1,6 +1,10 @@
 package com.lab2.electronicQueue.controller;
 
+import com.lab2.electronicQueue.DTO.PlaceInQueueDTO;
 import com.lab2.electronicQueue.DTO.QueueDTO;
+import com.lab2.electronicQueue.entity.PlaceInQueue;
+import com.lab2.electronicQueue.entity.Queue;
+import com.lab2.electronicQueue.service.serviceImpl.PlaceInQueueService;
 import com.lab2.electronicQueue.service.serviceImpl.QueueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,10 +23,12 @@ import java.util.List;
 @RequestMapping("/queue")
 public class QueueController {
     private final QueueService queueService;
+    private final PlaceInQueueService placeInQueueService;
 
     @Autowired
-    public QueueController(QueueService queueService) {
+    public QueueController(QueueService queueService, PlaceInQueueService placeInQueueService) {
         this.queueService = queueService;
+        this.placeInQueueService = placeInQueueService;
     }
 
     @GetMapping("/all/page/{pageNumber}")
@@ -46,7 +52,13 @@ public class QueueController {
     @GetMapping("/{id}")
     public String getQueueById(@PathVariable("id") Long id, Model model) {
         QueueDTO selectedQueue = queueService.queueToQueueDTO(queueService.findById(id));
+        List<PlaceInQueueDTO> usersInQueue =  placeInQueueService.findAllByQueueName(selectedQueue.getQueueName());
+
+        for (PlaceInQueueDTO q : usersInQueue)
+            System.out.println(q.getUsername() + " " + q.getOrderInQueue());
+
         model.addAttribute("selectedQueue", selectedQueue);
+        model.addAttribute("usersInQueue", usersInQueue);
         return "queueInfo";
     }
 
