@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
 public interface UserInter {
-    void addUser(User user);
+    void addUser(User user, String secondPassword);
     void updateUser(User user);
     void deleteUserByID(Long id);
     void deleteUserByUsername(String username);

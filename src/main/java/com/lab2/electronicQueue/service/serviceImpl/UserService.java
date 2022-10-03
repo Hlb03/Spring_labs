@@ -1,7 +1,9 @@
 package com.lab2.electronicQueue.service.serviceImpl;
 
 import com.lab2.electronicQueue.DTO.UserDTO;
+import com.lab2.electronicQueue.configuration.CustomBCryptPasswordEncoder;
 import com.lab2.electronicQueue.entity.User;
+import com.lab2.electronicQueue.entity.UserRole;
 import com.lab2.electronicQueue.repository.UserRepository;
 import com.lab2.electronicQueue.service.serviceInter.UserInter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +18,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService implements UserInter {
     private final UserRepository userRepository;
+    private final CustomBCryptPasswordEncoder encoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, CustomBCryptPasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.encoder = encoder;
     }
 
     @Override
     @Transactional
-    public void addUser(User user) {
+    public void addUser(User user, String secondPassword) throws IllegalArgumentException {
+        if (existsUserByUsername(user.getUsername()))
+            throw new IllegalArgumentException("user already exists");
+
+        if (!user.getUserPassword().equals(secondPassword)) {
+            throw new IllegalArgumentException("password are not the same");
+        }
+
+        user.setUserRole(UserRole.USER);
+
+        user.setUserPassword(encoder.passwordEncoder().encode(secondPassword));
+        user.setActive(true);
         userRepository.save(user);
     }
 

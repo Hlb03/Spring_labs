@@ -31,7 +31,11 @@
             <input type="password" class="form-control" id="floatingPassword" name="password">
             <label for="floatingPassword">Пароль</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Логін</button>
+        <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Увійти</button>
+        <br>
+        <button class="w-100 btn btn-lg btn-primary mb-3" type="submit" th:formmethod="get"
+                th:formaction="@{/registration}">Реєстрація
+        </button>
     </form>
 </main>
 

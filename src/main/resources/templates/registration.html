@@ -20,23 +20,45 @@
 </div>
 
 <main>
-    <form class="w-50 m-auto px-4 py-4 my-3 border rounded">
+    <form class="w-50 m-auto px-4 py-4 my-3 border rounded" th:object="${user}" th:action="@{/registration}"
+          method="post">
         <h1 class="h3 mb-3 fw-normal ">Заповніть форму реєстрації</h1>
 
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingLogin">
+            <input type="text" class="form-control" id="floatingLogin" name="userName" th:field="*{username}">
             <label for="floatingLogin">Логін</label>
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('username')}"
+                  th:errors="*{username}" style="color: red">
+                </span>
+            <th:block th:switch="${error}">
+                <th:block th:case="'user already exists'">
+                    <p th:text="${error}"> </p>
+                </th:block>
+                <th:block th:case="'password are not the same'">
+                    <p th:text="${error}"> </p>
+                </th:block>
+            </th:block>
         </div>
         <div class="form-floating mb-3">
-            <input type="E-mail" class="form-control" id="floatingEmail">
+            <input type="email" class="form-control" id="floatingEmail" name="userEmail" th:field="*{userEmail}">
             <label for="floatingEmail">E-mail</label>
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('userEmail')}"
+                  th:errors="*{userEmail}" style="color: red">
+                </span>
         </div>
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="floatingPassword">
+            <input type="password" class="form-control" id="floatingPassword" name="userPassword"
+                   th:field="*{userPassword}">
             <label for="floatingPassword">Пароль</label>
+            <span class="validationError"
+                  th:if="${#fields.hasErrors('userPassword')}"
+                  th:errors="*{userPassword}" style="color: red">
+                </span>
         </div>
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="floatingRePassword">
+            <input type="password" class="form-control" id="floatingRePassword" name="secondPassword">
             <label for="floatingRePassword">Повторіть пароль</label>
         </div>
         <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Зареєструватися</button>
