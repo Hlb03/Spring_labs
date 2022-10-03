@@ -25,13 +25,13 @@ public class Queue implements Serializable {
     @Column(name = "id")
     private long id;
 
-    @NotBlank(message = "This field can't be blank")
-    @Size(min = 2, max = 32, message = "length must be from 2 to 32 characters")
+    @NotBlank(message = [[#{error.message.blank}]])
+    @Size(min = 2, max = 32, message = [[#{error.message.2.32}]])
     @Column(name = "queue_name")
     private String queueName;
 
-    @NotNull(message = "This field can't be blank")
-    @Min(value = 0, message = "Count of compartment seats can't negative")
+    @NotNull(message = [[#{error.message.blank}]])
+    @Min(value = 0, message = [[#{error.message.seats}]])
     @Column(name = "number_of_seats")
     private int numberOfSeats;
 

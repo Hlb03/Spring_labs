@@ -1,7 +1,9 @@
 package com.lab2.electronicQueue.controller;
 
+import com.lab2.electronicQueue.DTO.PlaceInQueueDTO;
 import com.lab2.electronicQueue.DTO.QueueDTO;
 import com.lab2.electronicQueue.entity.User;
+import com.lab2.electronicQueue.service.serviceImpl.PlaceInQueueService;
 import com.lab2.electronicQueue.service.serviceImpl.QueueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,10 +21,12 @@ import java.util.List;
 @RequestMapping("/host")
 public class HostOfQueueController {
     private final QueueService queueService;
+    private final PlaceInQueueService placeInQueueService;
 
     @Autowired
-    public HostOfQueueController(QueueService queueService) {
+    public HostOfQueueController(QueueService queueService, PlaceInQueueService placeInQueueService) {
         this.queueService = queueService;
+        this.placeInQueueService = placeInQueueService;
     }
 
     @GetMapping("/all/page/{pageNumber}")
@@ -46,10 +50,23 @@ public class HostOfQueueController {
 
     @GetMapping("/{queueName}")
     public String getHostQueue(@PathVariable("queueName") String queueName, Principal principal
-    , Model model){
+                                            , Model model){
         QueueDTO selectedQueue = queueService.findToHost(queueName,principal.getName());
+        List<PlaceInQueueDTO> usersInQueue = placeInQueueService.findAllByQueueName(selectedQueue.getQueueName());
+        if (queueService.existsByUser_UsernameAndQueueName(principal.getName(), selectedQueue.getQueueName()))
+            model.addAttribute("iAmHost", "true");
+
         model.addAttribute("selectedQueue", selectedQueue);
-        return "managerQueue";
+        model.addAttribute("usersInQueue", usersInQueue);
+        model.addAttribute("selectedQueue", selectedQueue);
+
+        return "queueInfo";
+    }
+
+    @PostMapping("/delete/user/{username}/queue/{queueName}")
+    public String deleteUserFromQueue(@PathVariable("username") String username, @PathVariable("queueName") String queueName){
+        placeInQueueService.deletePlace(username, queueName);
+        return "redirect:/host/" + queueName;
     }
 
     @PostMapping("/block/queue/{queueName}")

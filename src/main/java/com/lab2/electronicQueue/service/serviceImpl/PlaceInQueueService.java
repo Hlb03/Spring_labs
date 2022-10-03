@@ -42,7 +42,7 @@ public class PlaceInQueueService implements PlaceInQueueInter {
     @Transactional
     public void addPlaceInQueue(String queueName, String username) {
         if(isExistUserInQueue(username,queueName)){
-            throw new IllegalArgumentException("This user in queue");
+            throw new IllegalArgumentException("This user is already in queue");
         }
         Queue selectedQueue = queueService.findByQueueName(queueName);
         queueService.subFreeSeat(selectedQueue.getId());
@@ -58,6 +58,13 @@ public class PlaceInQueueService implements PlaceInQueueInter {
     @Override
     @Transactional
     public void deletePlace(String username, String queueName) {
+        Queue selectedQueue = queueService.findByQueueName(queueName);
+        queueService.addFreeSeat(selectedQueue.getId());
+        User selectedUser = userService.findUserByUsername(username);
+        PlaceInQueue placeInQueue = new PlaceInQueue();
+        placeInQueue.setUser(selectedUser);
+        placeInQueue.setQueue(selectedQueue);
+        placeInQueue.setOrderInQueue(findMaxOrderInQueue(queueName));
         placeInQueueRepository.deletePlaceInQueueByUser_UsernameAndQueue_QueueName(username, queueName);
     }
 
@@ -109,7 +116,7 @@ public class PlaceInQueueService implements PlaceInQueueInter {
 
         int maxInQueue = 1;
 
-        if (allQueueByName == null)
+        if (allQueueByName.size() == 0)
             return maxInQueue;
 
         for (PlaceInQueue q : allQueueByName){

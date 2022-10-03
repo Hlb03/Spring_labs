@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -50,15 +51,16 @@ public class QueueController {
     }
 
     @GetMapping("/{id}")
-    public String getQueueById(@PathVariable("id") Long id, Model model) {
-        QueueDTO selectedQueue = queueService.queueToQueueDTO(queueService.findById(id));
-        List<PlaceInQueueDTO> usersInQueue =  placeInQueueService.findAllByQueueName(selectedQueue.getQueueName());
+    public String getQueueById(@PathVariable("id") Long id, Model model, Principal principal) {
 
-        for (PlaceInQueueDTO q : usersInQueue)
-            System.out.println(q.getUsername() + " " + q.getOrderInQueue());
+        QueueDTO selectedQueue = queueService.queueToQueueDTO(queueService.findById(id));
+        List<PlaceInQueueDTO> usersInQueue = placeInQueueService.findAllByQueueName(selectedQueue.getQueueName());
+        if (queueService.existsByUser_UsernameAndQueueName(principal.getName(), selectedQueue.getQueueName()))
+            model.addAttribute("iAmHost", "true");
 
         model.addAttribute("selectedQueue", selectedQueue);
         model.addAttribute("usersInQueue", usersInQueue);
+
         return "queueInfo";
     }
 

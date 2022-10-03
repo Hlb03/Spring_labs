@@ -1,6 +1,7 @@
 package com.lab2.electronicQueue.controller;
 
 import com.lab2.electronicQueue.DTO.PlaceInQueueDTO;
+import com.lab2.electronicQueue.DTO.QueueDTO;
 import com.lab2.electronicQueue.DTO.UserDTO;
 import com.lab2.electronicQueue.entity.Queue;
 import com.lab2.electronicQueue.entity.User;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -77,8 +79,30 @@ public class UserController {
         model.addAttribute("sort", sort);
         model.addAttribute("direction", direction);
         model.addAttribute("reverseDirection", direction.equals("asc") ? "desc" : "asc");
+
         return "allUserQueues";
     }
+
+    @GetMapping("/host/all/page/{pageNumber}")
+    public String getUsersQueue(Principal principal, Model model,
+                                @PageableDefault(size = 10) Pageable pageable,
+                                @PathVariable("pageNumber") int pageNumber,
+                                @RequestParam(required = false, defaultValue = "asc", value = "direction") String direction,
+                                @RequestParam(required = false, defaultValue = "id", value = "sort") String sort) {
+
+        Page<QueueDTO> placeInQueueDTOPage = queueService.findAllQueueFromUser(principal.getName(),pageable,pageNumber,direction,sort);
+        List<QueueDTO> placeInQueueDTOS = placeInQueueDTOPage.getContent();
+
+        model.addAttribute("pageNumber",pageNumber);
+        model.addAttribute("pageable",placeInQueueDTOPage);
+        model.addAttribute("queueDTOList",placeInQueueDTOS);
+
+        model.addAttribute("sort", sort);
+        model.addAttribute("direction", direction);
+        model.addAttribute("reverseDirection", direction.equals("asc") ? "desc" : "asc");
+        return "allUserHostQueues";
+    }
+
 
     @PostMapping("/record")
     public String makeARecord(Principal principal, @RequestParam("queueName") String queueName){

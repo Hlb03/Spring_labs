@@ -24,13 +24,13 @@ public class User implements Serializable {
     @Column(name = "id")
     private long id;
 
-    @NotBlank(message = "This field can't be blank")
-    @Size(min = 4, max = 32, message = "length must be from 4 to 32 characters")
+    @NotBlank(message = [[#{error.message.blank}]])
+    @Size(min = 4, max = 32, message = [[#{error.message.4.32}]])
     @Column(name = "user_name")
     String username;
 
-    @NotBlank(message = "This field can't be blank")
-    @Size(min = 8, max = 64, message = "length must be from 8 to 64 characters")
+    @NotBlank(message = [[#{error.message.blank}]])
+    @Size(min = 8, max = 64, message = [[#{error.message.8.64}]])
     @Column(name = "user_password")
     String userPassword;
 
@@ -41,8 +41,8 @@ public class User implements Serializable {
     @Column(name = "is_active")
     boolean isActive;
 
-    @NotBlank(message = "This field can't be blank")
-    @Email(message = "Email address is invalid")
+    @NotBlank(message = [[#{error.message.blank}]])
+    @Email(message = [[#{error.message.email}]])
     @Column(name = "user_email")
     String userEmail;
 
