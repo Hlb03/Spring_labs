@@ -65,8 +65,8 @@
                 <td th:text="${user.userEmail}"></td>
                 <td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                        <form>
-                            <button type="submit" name="queueName" class="btn btn-outline-primary btn-rounded">[[#{button.queue.info}]]
+                        <form th:action="@{'/admin/user/' +${user.userName}}" method="get">
+                            <button type="submit" name="queueName" class="btn btn-outline-primary btn-rounded">[[#{head.link.user}]]
                             </button>
                         </form>
                         <th:block th:if="${user.userRole} == 'USER'">

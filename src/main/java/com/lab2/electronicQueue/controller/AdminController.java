@@ -47,6 +47,13 @@ public class AdminController {
         return "allUsersForAdmin";
     }
 
+    @GetMapping("/user/{username}")
+    public String getUserInfo(@PathVariable("username") String username, Model model){
+        UserDTO selectedUser = userService.userToUserDTO(userService.findUserByUsername(username));
+        model.addAttribute("selectedUser", selectedUser);
+        return "infoAboutUserForAdmin";
+    }
+
     @PostMapping("/set/user/status/{username}")
     public String changeUserAccountStatus(@PathVariable("username") String username){
         userService.setUserVerification(username);
