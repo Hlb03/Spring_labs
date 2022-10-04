@@ -13,7 +13,7 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a th:href="@{/}" class="nav-link">[[#{head.link.home}]]</a></li>
             <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">[[#{head.link.queues}]]</a></li>
-            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link active" aria-current="page">[[#{head.link.add.queue}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link active" aria-current="page">[[#{head.link.add.queues}]]</a></li>
             <li class="nav-item"><a th:href="@{/user}" class="nav-link">[[#{head.link.user}]]</a></li>
         </ul>
     </header>
@@ -40,7 +40,7 @@
                       th:errors="*{numberOfSeats}" style="color: red">
                 </span>
             </div>
-            <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">[[#{button.addQueue}]]</button>
+            <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">[[#{title.add.queue}]]</button>
         </div>
     </form>
 </main>

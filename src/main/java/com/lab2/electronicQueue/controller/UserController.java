@@ -83,7 +83,7 @@ public class UserController {
         return "allUserQueues";
     }
 
-    @GetMapping("/host/all/page/{pageNumber}")
+    /*@GetMapping("/host/all/page/{pageNumber}")
     public String getUsersQueue(Principal principal, Model model,
                                 @PageableDefault(size = 10) Pageable pageable,
                                 @PathVariable("pageNumber") int pageNumber,
@@ -101,7 +101,7 @@ public class UserController {
         model.addAttribute("direction", direction);
         model.addAttribute("reverseDirection", direction.equals("asc") ? "desc" : "asc");
         return "allUserHostQueues";
-    }
+    }*/
 
 
     @PostMapping("/record")

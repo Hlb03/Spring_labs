@@ -11,11 +11,10 @@
 <div class="container-fluid" style="background-color: #CAF2F4">
     <header class="d-flex justify-content-center py-3">
         <ul class="nav nav-pills">
-            <li class="nav-item"><a th:href="@{/}" class="nav-link">Головна</a></li>
-            <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">Поточні черги</a></li>
-            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">Додати чергу</a></li>
-            <li class="nav-item"><a th:href="@{/user}" class="nav-link active" aria-current="page">Кабінет
-                користувача</a></li>
+            <li class="nav-item"><a th:href="@{/}" class="nav-link">[[#{head.link.home}]]</a></li>
+            <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">[[#{head.link.queues}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">[[#{head.link.add.queues}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user}" class="nav-link active" aria-current="page">[[#{head.link.user}]]</a></li>
         </ul>
     </header>
 </div>
@@ -24,32 +23,32 @@
     <div class="container flex-grow-1">
         <form class="d-flex py-3" role="search">
             <input class="form-control me-2" type="search" placeholder="Пошук черги">
-            <button class="btn btn-outline-success" type="submit">Пошук</button>
+            <button class="btn btn-outline-success" type="submit">[[#{button.find}]]</button>
         </form>
         <table class="table py-3 table-bordered table-striped text-center" style="margin: 20px">
             <thead class="table-info">
             <tr>
                 <th scope="col">
-                    <a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=id'}">
+                    <a th:href="@{'/host/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=id'}">
                         id
                     </a>
                 </th>
                 <th scope="col">
-                    <a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=user.username'}">
+                    <a th:href="@{'/host/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=user.username'}">
                         Host
                     </a>
                 </th>
                 <th scope="col">
-                    <a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=queueName'}">
-                        Назва черги
+                    <a th:href="@{'/host/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=queueName'}">
+                        [[#{queue.add.name}]]
                     </a>
                 </th>
                 <th scope="col">
-                    <a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=numberOfFreeSeats'}">
-                        Кількість вільних місць
+                    <a th:href="@{'/host/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=numberOfFreeSeats'}">
+                        [[#{queue.number.of.freeSeats}]]
                     </a>
                 </th>
-                <th scope="col">Запис</th>
+                <th scope="col">[[#{queue.buttons}]]</th>
             </tr>
             </thead>
             <tbody>
@@ -61,7 +60,7 @@
                 <td>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                         <form th:action="@{'/host/' + ${que.queueName}}" method="get">
-                            <button type="submit" class="btn btn btn-outline-info btn-rounded">Черга інфо</button>
+                            <button type="submit" class="btn btn btn-outline-info btn-rounded">[[#{button.queue.info}]]</button>
                         </form>
                     </div>
                 </td>
@@ -76,7 +75,7 @@
         <th:block th:if="${pageNumber}>1">
             <li class="page-item">
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + ${1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">First</a>
+                   th:href="@{'/host/all/page/' + ${1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">First</a>
             </li>
         </th:block>
         <th:block th:unless="${pageNumber}>1">
@@ -88,7 +87,7 @@
         <th:block th:if="${pageNumber}>1">
             <li class="page-item">
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + ${pageNumber - 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">Previous</a>
+                   th:href="@{'/host/all/page/' + ${pageNumber - 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">Previous</a>
             </li>
         </th:block>
         <th:block th:unless="${pageNumber}>1">
@@ -107,7 +106,7 @@
                 <th:block th:unless="${i} == ${pageNumber}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:href="@{'/queue/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
+                           th:href="@{'/host/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
                     </li>
                 </th:block>
             </th:block>
@@ -118,16 +117,16 @@
                 <li th:each="i : ${#numbers.sequence(1,5)}"
                     th:class="${pageNumber != i ? 'page-item' : 'page-item active'}">
                     <a class="page-link"
-                       th:href="@{'/queue/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
+                       th:href="@{'/host/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
                 </li>
 
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + '6'+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
+                   th:href="@{'/host/all/page/' + '6'+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
 
                 <li th:each="i : ${#numbers.sequence(pageable.getTotalPages()-4,pageable.getTotalPages())}"
                     th:class="${pageNumber != i ? 'page-item' : 'page-item active'}">
                     <a class="page-link"
-                       th:href="@{'/queue/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
+                       th:href="@{'/host/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
                 </li>
             </th:block>
 
@@ -135,7 +134,7 @@
                 <li th:each="i : ${#numbers.sequence(1,5)}"
                     th:class="${pageNumber != i ? 'page-item' : 'page-item active'}">
                     <a class="page-link"
-                       th:href="@{'/queue/all/page/' + ${pageNumber - 5}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
+                       th:href="@{'/host/all/page/' + ${pageNumber - 5}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
                 </li>
             </th:block>
 
@@ -145,7 +144,7 @@
         <th:block th:if="${pageNumber}<${pageable.getTotalPages()}">
             <li class="page-item">
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + ${pageNumber + 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">Next</a>
+                   th:href="@{'/host/all/page/' + ${pageNumber + 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">Next</a>
             </li>
         </th:block>
         <th:block th:unless="${pageNumber}<${pageable.getTotalPages()}">
@@ -157,7 +156,7 @@
         <th:block th:if="${pageNumber}<${pageable.getTotalPages()}">
             <li class="page-item">
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + ${pageable.getTotalPages()}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">Last</a>
+                   th:href="@{'/host/all/page/' + ${pageable.getTotalPages()}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">Last</a>
             </li>
         </th:block>
         <th:block th:unless="${pageNumber}<${pageable.getTotalPages()}">

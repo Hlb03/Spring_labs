@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +44,7 @@ public class HostOfQueueController {
         model.addAttribute("sort", sort);
         model.addAttribute("direction", direction);
         model.addAttribute("reverseDirection", direction.equals("asc") ? "desc" : "asc");
-        return "allHostQueues";
+        return "allUserHostQueues";
     }
 
     @GetMapping("/{queueName}")
@@ -64,8 +63,8 @@ public class HostOfQueueController {
     }
 
     @PostMapping("/delete/user/{username}/queue/{queueName}")
-    public String deleteUserFromQueue(@PathVariable("username") String username, @PathVariable("queueName") String queueName){
-        placeInQueueService.deletePlace(username, queueName);
+    public String deleteUserFromQueue(@PathVariable("username") String username, @PathVariable("queueName") String queueName, Principal principal){
+        placeInQueueService.deletePlace(username, queueName, principal.getName());
         return "redirect:/host/" + queueName;
     }
 
@@ -81,5 +80,9 @@ public class HostOfQueueController {
         return "redirect:/host/all/page/1";
     }
 
-
+    @PostMapping("/next/queue/{queueName}")
+    public String nextUser(@PathVariable("queueName") String queueName, Principal principal){
+        placeInQueueService.nextUser(queueName, principal.getName());
+        return "redirect:/host/" + queueName;
+    }
 }

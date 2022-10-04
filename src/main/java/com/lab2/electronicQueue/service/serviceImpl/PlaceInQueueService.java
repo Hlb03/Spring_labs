@@ -1,6 +1,7 @@
 package com.lab2.electronicQueue.service.serviceImpl;
 
 import com.lab2.electronicQueue.DTO.PlaceInQueueDTO;
+import com.lab2.electronicQueue.DTO.UserDTO;
 import com.lab2.electronicQueue.entity.PlaceInQueue;
 import com.lab2.electronicQueue.entity.Queue;
 import com.lab2.electronicQueue.entity.User;
@@ -57,9 +58,39 @@ public class PlaceInQueueService implements PlaceInQueueInter {
 
     @Override
     @Transactional
-    public void deletePlace(String username, String queueName) {
+    public void deletePlace(String username, String queueName,String hostName) {
+        if(!queueService.findByQueueName(queueName).getUser().getUsername().equals(hostName)
+                && !userService.findUserByUsername(hostName).getUserRole().name().equals("ADMIN")){
+            throw new IllegalArgumentException("Bad user");
+        }
         Queue selectedQueue = queueService.findByQueueName(queueName);
         queueService.addFreeSeat(selectedQueue.getId());
+        User selectedUser = userService.findUserByUsername(username);
+        PlaceInQueue placeInQueue = new PlaceInQueue();
+        placeInQueue.setUser(selectedUser);
+        placeInQueue.setQueue(selectedQueue);
+        placeInQueue.setOrderInQueue(findMaxOrderInQueue(queueName));
+        placeInQueueRepository.deletePlaceInQueueByUser_UsernameAndQueue_QueueName(username, queueName);
+    }
+
+    @Override
+    @Transactional
+    public void nextUser(String queueName,String hostName) {
+        if(!queueService.findByQueueName(queueName).getUser().getUsername().equals(hostName)
+                && !userService.findUserByUsername(hostName).getUserRole().name().equals("ADMIN")){
+            throw new IllegalArgumentException("Bad user");
+        }
+        Queue selectedQueue = queueService.findByQueueName(queueName);
+        queueService.addFreeSeat(selectedQueue.getId());
+        String username= findAllByQueueName(queueName)
+                .stream()
+                .sorted((o1,o2)-> Math.toIntExact(o1.getId() - o2.getId()))
+                .map(PlaceInQueueDTO::getUsername)
+                .collect(Collectors.toList())
+                .stream()
+                .findFirst()
+                .get();
+
         User selectedUser = userService.findUserByUsername(username);
         PlaceInQueue placeInQueue = new PlaceInQueue();
         placeInQueue.setUser(selectedUser);

@@ -13,7 +13,7 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a th:href="@{/}" class="nav-link">[[#{head.link.home}]]</a></li>
             <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">[[#{head.link.queues}]]</a></li>
-            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">[[#{head.link.add.queue}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">[[#{head.link.add.queues}]]</a></li>
             <li class="nav-item"><a th:href="@{/user}" class="nav-link active" aria-current="page">[[#{head.link.user}]]</a></li>
         </ul>
     </header>
@@ -29,22 +29,22 @@
             <thead class="table-info">
             <tr>
                 <th scope="col">
-                    <a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=id'}">
+                    <a th:href="@{'/user/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=id'}">
                         id
                     </a>
                 </th>
                 <th scope="col">
-                    <a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=user.username'}">
+                    <a th:href="@{'/user/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=queue.user.username'}">
                         Host
                     </a>
                 </th>
                 <th scope="col">
-                    <a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=queueName'}">
+                    <a th:href="@{'/user/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=queue.queueName'}">
                         [[#{queue.add.name}]]
                     </a>
                 </th>
                 <th scope="col">
-                    <a th:href="@{'/queue/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=numberOfFreeSeats'}">
+                    <a th:href="@{'/user/all/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=queue.numberOfFreeSeats'}">
                         [[#{queue.number.of.freeSeats}]]
                     </a>
                 </th>
@@ -75,7 +75,7 @@
         <th:block th:if="${pageNumber}>1">
             <li class="page-item">
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + ${1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[#{counter.first}]]</a>
+                   th:href="@{'/user/all/page/' + ${1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[#{counter.first}]]</a>
             </li>
         </th:block>
         <th:block th:unless="${pageNumber}>1">
@@ -87,7 +87,7 @@
         <th:block th:if="${pageNumber}>1">
             <li class="page-item">
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + ${pageNumber - 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[#{counter.previous}]]</a>
+                   th:href="@{'/user/all/page/' + ${pageNumber - 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[#{counter.previous}]]</a>
             </li>
         </th:block>
         <th:block th:unless="${pageNumber}>1">
@@ -106,7 +106,7 @@
                 <th:block th:unless="${i} == ${pageNumber}">
                     <li class="page-item">
                         <a class="page-link"
-                           th:href="@{'/queue/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
+                           th:href="@{'/user/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
                     </li>
                 </th:block>
             </th:block>
@@ -117,16 +117,16 @@
                 <li th:each="i : ${#numbers.sequence(1,5)}"
                     th:class="${pageNumber != i ? 'page-item' : 'page-item active'}">
                     <a class="page-link"
-                       th:href="@{'/queue/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
+                       th:href="@{'/user/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
                 </li>
 
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + '6'+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
+                   th:href="@{'/user/all/page/' + '6'+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
 
                 <li th:each="i : ${#numbers.sequence(pageable.getTotalPages()-4,pageable.getTotalPages())}"
                     th:class="${pageNumber != i ? 'page-item' : 'page-item active'}">
                     <a class="page-link"
-                       th:href="@{'/queue/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
+                       th:href="@{'/user/all/page/' + ${i}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[${i}]]</a>
                 </li>
             </th:block>
 
@@ -134,7 +134,7 @@
                 <li th:each="i : ${#numbers.sequence(1,5)}"
                     th:class="${pageNumber != i ? 'page-item' : 'page-item active'}">
                     <a class="page-link"
-                       th:href="@{'/queue/all/page/' + ${pageNumber - 5}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
+                       th:href="@{'/user/all/page/' + ${pageNumber - 5}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">...</a>
                 </li>
             </th:block>
 
@@ -144,7 +144,7 @@
         <th:block th:if="${pageNumber}<${pageable.getTotalPages()}">
             <li class="page-item">
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + ${pageNumber + 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[#{counter.next}]]</a>
+                   th:href="@{'/user/all/page/' + ${pageNumber + 1}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[#{counter.next}]]</a>
             </li>
         </th:block>
         <th:block th:unless="${pageNumber}<${pageable.getTotalPages()}">
@@ -156,7 +156,7 @@
         <th:block th:if="${pageNumber}<${pageable.getTotalPages()}">
             <li class="page-item">
                 <a class="page-link"
-                   th:href="@{'/queue/all/page/' + ${pageable.getTotalPages()}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[#{counter.last}]]</a>
+                   th:href="@{'/user/all/page/' + ${pageable.getTotalPages()}+ '?direction=' + ${direction} + '&sort=' + ${sort}}">[[#{counter.last}]]</a>
             </li>
         </th:block>
         <th:block th:unless="${pageNumber}<${pageable.getTotalPages()}">

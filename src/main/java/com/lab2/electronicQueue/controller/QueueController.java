@@ -38,7 +38,7 @@ public class QueueController {
             , @PathVariable("pageNumber") int pageNumber
             , @RequestParam(required = false, defaultValue = "asc", value = "direction") String direction
             , @RequestParam(required = false, defaultValue = "id", value = "sort") String sort) {
-        Page<QueueDTO> queuePage = queueService.findAllQueue(pageable, pageNumber, direction, sort);
+        Page<QueueDTO> queuePage = queueService.findAllActiveQueue(true,pageable, pageNumber, direction, sort);
         List<QueueDTO> queueDTOList = queuePage.getContent();
         model.addAttribute("pageNumber", pageNumber);
         model.addAttribute("pageable", queuePage);
@@ -51,12 +51,10 @@ public class QueueController {
     }
 
     @GetMapping("/{id}")
-    public String getQueueById(@PathVariable("id") Long id, Model model, Principal principal) {
+    public String getQueueById(@PathVariable("id") Long id, Model model) {
 
         QueueDTO selectedQueue = queueService.queueToQueueDTO(queueService.findById(id));
         List<PlaceInQueueDTO> usersInQueue = placeInQueueService.findAllByQueueName(selectedQueue.getQueueName());
-        if (queueService.existsByUser_UsernameAndQueueName(principal.getName(), selectedQueue.getQueueName()))
-            model.addAttribute("iAmHost", "true");
 
         model.addAttribute("selectedQueue", selectedQueue);
         model.addAttribute("usersInQueue", usersInQueue);

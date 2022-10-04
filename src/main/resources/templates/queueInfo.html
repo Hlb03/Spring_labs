@@ -13,7 +13,7 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a th:href="@{/}" class="nav-link">[[#{head.link.home}]]</a></li>
             <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link active" aria-current="page">[[#{head.link.queues}]]</a></li>
-            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">[[#{head.link.add.queue}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">[[#{head.link.add.queues}]]</a></li>
             <li class="nav-item"><a th:href="@{/user}" class="nav-link">[[#{head.link.user}]]</a></li>
         </ul>
     </header>
@@ -23,19 +23,35 @@
     <div class="container my-3 py-4 border rounded">
         <h1 class="h3 mb-3 fw-normal ">[[#{button.queue.info}]]</h1>
         <!--        <p th:text="'Id: ' + ${selectedQueue.id}"></p>-->
-        <p th:text="'Назва черги: ' + ${selectedQueue.queueName}">[[#{queue.add.name}]]</p>
+        <p th:text="#{queue.add.name}+ ': ' + ${selectedQueue.queueName}">[[#{queue.add.name}]]</p>
         <p th:text="'Host: ' + ${selectedQueue.hostName}">[[#{user.username}]]</p>
-        <p th:text="'Кількість місць: ' + ${selectedQueue.numberOfSeats}">[[#{queue.add.form.room}]]</p>
-        <p th:text="'Кількість вільних місць: ' + ${selectedQueue.numberOfFreeSeats}">[[#{queue.number.of.freeSeats}]]</p>
-        <p th:if="${selectedQueue.is_active}" th:text="'Статус: Активна'"/>
-        <p th:if="${!selectedQueue.is_active}" th:text="'Статус: Завершена'"/>
-        <th:block>
+        <p th:text="#{queue.add.form.room}+ ': '+ ${selectedQueue.numberOfSeats}">[[#{queue.add.form.room}]]</p>
+        <p th:text="#{queue.number.of.freeSeats}+ ': ' + ${selectedQueue.numberOfFreeSeats}">[[#{queue.number.of.freeSeats}]]</p>
+        <th:block th:if="${selectedQueue.is_active}">
+            <p th:text="#{user.status} + ' : Активна'"></p>
+        </th:block>
+        <th:block th:unless="${selectedQueue.is_active}">
+            <p th:text="#{user.status} + ' : Завершена'"></p>
+        </th:block>
+        <!--<p th:if="${selectedQueue.is_active}" />
+        <p th:if="${!selectedQueue.is_active}" th:text="'Статус: Завершена'"/>-->
+        <th:block th:if="${iAmHost} eq 'true'">
             <!-- Add normal linking to Next method -->
-            <span th:if="${iAmHost} eq 'true'">
-                <form th:action="@{/smth}" method="post">
-                    <button class="btn btn-lg btn-primary mb-3" type="submit">Наступний юзер</button>
-                </form>
-            </span>
+            <form th:action="@{'/host/next/queue/' + ${selectedQueue.queueName}}" method="post">
+                <button class="btn btn-lg btn-primary mb-3" type="submit">Наступний юзер</button>
+            </form>
+            <form th:action="@{'/host/block/queue/' +  ${selectedQueue.queueName}}" method="post">
+                <button type="submit"
+                        th:class="${selectedQueue.is_active} == true ? 'btn btn-outline-danger' : 'btn btn-outline-success'"
+                        th:text="${selectedQueue.is_active} == true ? #{admin.button.block} : #{admin.button.unblock}"
+                ></button>
+            </form>
+            <!--<form th:action="@{'/host/block/queue/' +  ${selectedQueue.queueName}}" method="post">
+                <button class="btn btn-lg btn-primary mb-3" type="submit">Наступний юзер</button>
+            </form>-->
+            <form th:action="@{'/host/delete/queue/' + ${selectedQueue.id}}" method="post">
+                <button class="btn btn-outline-danger" type="submit">Delete queue</button>
+            </form>
         </th:block>
     </div>
     <br>
@@ -47,27 +63,26 @@
             <tr>
                 <td>Номер у черзі</td>
                 <td>Ім'я користувача</td>
-                <td>
-                    <th:block>
-                        <span th:if="${iAmHost} eq 'true'">Видалити з черги</span>
-                    </th:block>
-                </td>
+                <th:block th:if="${iAmHost} eq 'true'">
+                    <td>
+                        <!--<span th:if="${iAmHost} eq 'true'">Видалити з черги</span>-->
+                        <span>Видалити з черги</span>
+                    </td>
+                </th:block>
             </tr>
             </thead>
             <tbody>
             <tr th:each="users : ${usersInQueue}">
                 <td th:text="${users.orderInQueue}"></td>
                 <td th:text="${users.username}"></td>
-                <td>
-                    <th:block>
-                    <span th:if="${iAmHost} eq 'true'">
-                    <form th:action="@{'/host/delete/user/' + ${users.username} + '/queue/' + ${selectedQueue.queueName}}"
-                          method="post">
+                <th:block th:if="${iAmHost} eq 'true'">
+                    <td>
+                        <form th:action="@{'/host/delete/user/' + ${users.username} + '/queue/' + ${selectedQueue.queueName}}"
+                            method="post">
                         <button type="submit" class="btn btn btn-outline-info btn-rounded">Видалити з черги</button>
-                    </form>
-                    </span>
-                    </th:block>
-                </td>
+                        </form>
+                    </td>
+                </th:block>
             </tr>
             </tbody>
         </table>

@@ -1,7 +1,6 @@
 package com.lab2.electronicQueue.repository;
 
 import com.lab2.electronicQueue.entity.PlaceInQueue;
-import com.lab2.electronicQueue.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

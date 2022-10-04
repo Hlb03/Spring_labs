@@ -13,7 +13,7 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a th:href="@{/}" class="nav-link">[[#{head.link.home}]]</a></li>
             <li class="nav-item"><a th:href="@{/queue/all/page/1}" class="nav-link">[[#{head.link.queues}]]</a></li>
-            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">[[#{head.link.add.queue}]]</a></li>
+            <li class="nav-item"><a th:href="@{/user/add/queue}" class="nav-link">[[#{head.link.add.queues}]]</a></li>
             <li class="nav-item"><a th:href="@{/user}" class="nav-link active" aria-current="page">[[#{head.link.user}]]</a></li>
         </ul>
     </header>
@@ -29,12 +29,12 @@
             <thead class="table-info">
             <tr>
                 <th scope="col">
-                    <a th:href="@{'/admin/all/users/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=userId'}">
+                    <a th:href="@{'/admin/all/users/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=id'}">
                         id
                     </a>
                 </th>
                 <th scope="col">
-                    <a th:href="@{'/admin/all/users/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=user.userName'}">
+                    <a th:href="@{'/admin/all/users/page/' + ${pageNumber} + '?direction=' + ${reverseDirection} + '&sort=username'}">
                         <!--                        Host-->
                         [[#{user.username}]]
                     </a>
@@ -73,7 +73,7 @@
                             <form th:action="@{'/admin/set/user/status/' + ${user.userName}}" method="post">
                                 <button type="submit"
                                         th:class="${user.isActive} == true ? 'btn btn-outline-danger' : 'btn btn-outline-success'"
-                                        th:text="${user.isActive} == true ? 'Заблокувати' : 'Розблокувати'"
+                                        th:text="${user.isActive} == true ? #{admin.button.block} : #{admin.button.unblock}"
                                         th:value="${pageNumber}"></button>
                             </form>
                             <form th:action="@{'/admin/delete/user/' + ${user.userName}}" method="post">
