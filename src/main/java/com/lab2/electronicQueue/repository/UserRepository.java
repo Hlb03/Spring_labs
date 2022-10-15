@@ -10,12 +10,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
 
     User findUserByUsername(String username);
     boolean existsUserByUsername(String username);
     void deleteByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     @Modifying
     @Query(value = "UPDATE user SET is_active = :newVerificationStatus WHERE user_name = :userName", nativeQuery = true)

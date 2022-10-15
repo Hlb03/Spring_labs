@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface QueueRepository extends JpaRepository<Queue,Long> {
     @Modifying
@@ -27,7 +29,8 @@ public interface QueueRepository extends JpaRepository<Queue,Long> {
     Page<Queue> findAll(Pageable pageable);
     Page<Queue> findAllByActive(Pageable pageable, boolean isActive);
     Page<Queue> findAllByUser_Username(String username, Pageable pageable);
-    Queue findByQueueName(String queueName);
+    Optional<Queue> findByQueueName(String queueName);
+    Optional<Queue> findByQueueNameAndUser_Username(String username,String queueName);
     Queue findQueueById(Long id);
 
 }

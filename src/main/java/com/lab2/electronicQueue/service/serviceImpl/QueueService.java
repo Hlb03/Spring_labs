@@ -29,11 +29,12 @@ public class QueueService implements QueueInter {
 
     @Override
     @Transactional
-    public void addQueue(Queue queue, String username) {
+    public QueueDTO addQueue(Queue queue, String username) {
         queue.setUser(userService.findUserByUsername(username));
         queue.setNumberOfFreeSeats(queue.getNumberOfSeats());
         queue.setActive(true);
         queueRepository.save(queue);
+        return queueToQueueDTO(queue);
     }
 
     @Override
@@ -60,6 +61,12 @@ public class QueueService implements QueueInter {
         queueRepository.deleteById(id);
     }
 
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteQueue(Long id){
+        queueRepository.deleteById(id);
+    }
+
     @Override
     @Transactional
     @PreAuthorize("hasRole('ADMIN') ||" +
@@ -71,6 +78,15 @@ public class QueueService implements QueueInter {
         }
         boolean isActive = findByQueueName(queueName).isActive();
         queueRepository.closeOrOpenQueue(!isActive, queueName);
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+    public QueueDTO closeOrOpenQueue(String queueName) {
+        QueueDTO selectedQueue = queueToQueueDTO(findByQueueName(queueName));
+        boolean isActive = selectedQueue.is_active();
+        queueRepository.closeOrOpenQueue(!isActive, queueName);
+        return selectedQueue;
     }
 
     @Override
@@ -108,10 +124,17 @@ public class QueueService implements QueueInter {
                 .map(this::queueToQueueDTO);
     }
 
+    @Transactional(readOnly = true)
+    public Page<QueueDTO> findAllHostQueue(String hostname, int pageNumber, int size, String direction, String sort){
+        Pageable pageable = PageRequest.of(pageNumber, size, direction.equals("asc") ? Sort.by(sort).ascending() : Sort.by(sort).descending());
+        return queueRepository.findAllByUser_Username(hostname,pageable)
+                .map(this::queueToQueueDTO);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Queue findByQueueName(String queueName)  {
-        return queueRepository.findByQueueName(queueName);
+        return queueRepository.findByQueueName(queueName).orElseThrow();
     }
 
     @Override
@@ -141,6 +164,15 @@ public class QueueService implements QueueInter {
         if(numberOfSeats>=numberOfFreeSeats+1){
             queueRepository.addFreeSeats(id);
         }
+    }
+
+    @Transactional
+    public QueueDTO updateQueueData(QueueDTO queueDTO, Long id){
+        Queue queue = findById(id);
+        queue.setQueueName(queueDTO.getQueueName());
+        queue.setNumberOfSeats(queueDTO.getNumberOfSeats());
+        queueRepository.save(queue);
+        return queueToQueueDTO(queue);
     }
 
     @Override

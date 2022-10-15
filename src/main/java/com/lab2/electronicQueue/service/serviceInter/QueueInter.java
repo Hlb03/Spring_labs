@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface QueueInter {
-    void addQueue (Queue queue,String username);
+    QueueDTO addQueue (Queue queue,String username);
     void update (Queue queue, String username);
     void deleteQueueByID(Long id, String username);
     void  closeOrOpenQueue(String queueName, String username);

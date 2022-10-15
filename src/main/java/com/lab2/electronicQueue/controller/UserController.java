@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -38,7 +40,9 @@ public class UserController {
     }
 
     @GetMapping
-    public String getUserPage(Model model, Principal principal){
+    public String getUserPage(Model model, Principal principal,@AuthenticationPrincipal UserDetails user){
+        System.out.println(user);
+        System.out.println(user.getUsername());
         UserDTO selectedUser = userService.userToUserDTO(userService.findUserByUsername(principal.getName()));
         model.addAttribute("selectedUser",selectedUser);
         if(selectedUser.getUserRole().equals("USER")){

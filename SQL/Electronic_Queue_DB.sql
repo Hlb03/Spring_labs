@@ -25,7 +25,7 @@ create table queue(
                       number_of_free_seats int not null,
                       is_active boolean not null,
                       user_admin_id int not null,
-                      foreign key(user_admin_id) references user(id)
+                      foreign key(user_admin_id) references user(id) on delete cascade
 );
 
 create table place_in_queue(
@@ -33,8 +33,8 @@ create table place_in_queue(
                                user_id int not null,
                                queue_id int not null,
                                order_in_queue int not null ,
-                               foreign key(user_id) references user(id),
-                               foreign key(queue_id) references queue(id)
+                               foreign key(user_id) references user(id) on delete cascade,
+                               foreign key(queue_id) references queue(id) on delete cascade
 );
 
 insert into user_role(user_role) value
@@ -60,7 +60,25 @@ insert into user(user_name,user_password,user_role,is_active,user_email) value
     ('User5','$2a$12$px/.zWGdQOEGTl7.QIbVJusjguhlbrB.z99PntMnQYCTj5rt1XtL2','USER',true,'userFive@gmail.com'),
 
     /*pass: userPass6*/
-    ('User6','$2a$12$Iq9vJDCIy7y..6V9Y9tXt.8u6BTpi5LCQTkE5d3kSgMyNoUJ3gSFC','USER',true,'userSix@gmail.com'),
+    ('User6','$2a$12$TUHu9e6EUbBSlXYfraB/9OMxVTFz8FReMXLpHXBQLZzV2Ha.y0lNa','USER',true,'userSix@gmail.com'),
+
+    /*pass: userPass7*/
+    ('User7','$2a$12$OVOPVUouPYjhEZ3jXC3vAeahS1AE0Lke/zyljB8enS5bTH6yr86ma','USER',true,'userSeven@gmail.com'),
+
+    /*pass: userPass8*/
+    ('User8','$2a$12$/oKG4j9XlHUH8BDHkbeUjuTOZSa.9Kzqdc9jJkRlws7LcrBD7wQFm','USER',true,'userEight@gmail.com'),
+
+    /*pass: userPass9*/
+    ('User9','$2a$12$R6c5cPmqPKh2MguLb0uR4ONanS5wxHPA26uzDUHcw/pGs5YgHUNwa','USER',true,'userNine@gmail.com'),
+
+    /*pass: userPass10*/
+    ('User10','$2a$12$vF85Ncu88Qqw23nFgZCpTe37HH17bCmVvv4xAHxl45ojFRa6ccN66','USER',true,'userTen@gmail.com'),
+
+    /*pass: userPass11*/
+    ('User11','$2a$12$wcWwFIiksg4s/71bvtEYkO.KFa507gCoJpr3QW61wHDiLP/DgykYe','USER',true,'userEleven@gmail.com'),
+
+    /*pass: userPass12*/
+    ('User12','$2a$12$71BTKnnSBhHK0rUMasJXbeWLLo.sh.KCzoV7YUMDLx3e59/tkDR/e','USER',true,'userTwelv@gmail.com'),
 
     /*pass: testadmin*/
     ('TestAdmin','$2a$12$9tcavON6VVv6pkyKAQ2DFeVPBk8oqegu0RaEyTBUKy4FgPxu/0qsC','ADMIN',true,'testAdmin@gmail.com');
@@ -72,6 +90,6 @@ insert into queue(queue_name,number_of_seats,number_of_free_seats,is_active,user
     ('BestQueue', 10, 10, true, 5);
 
 insert into place_in_queue(user_id, queue_id, order_in_queue) values
-    (1, 1, 1), (5, 1, 2), (2, 1, 3),
-    (2, 2, 1), (1, 2, 2), (6, 2, 3),
-    (3, 3, 1), (4, 3, 2), (7, 3, 3);
+                                                                  (1, 1, 1), (5, 1, 2), (2, 1, 3),
+                                                                  (2, 2, 1), (1, 2, 2), (6, 2, 3),
+                                                                  (3, 3, 1), (4, 3, 2), (7, 3, 3);
